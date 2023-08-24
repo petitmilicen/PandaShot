@@ -28,6 +28,20 @@ export class ImagenesServicioService {
       titulo: 'Planeta',
       imagenURL: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png'
 
+    },
+    {
+      id: '4',
+      autor: 'Danilo',
+      titulo: 'Planeta azul',
+      imagenURL: 'https://www.nationalgeographic.com.es/medio/2022/08/03/el-planeta-neptuno_bfb396f8_1280x1278.jpg'
+
+    },
+    {
+      id: '5',
+      autor: 'Danilo',
+      titulo: 'Bosque',
+      imagenURL: 'https://media.cntraveler.com/photos/5eb18e42fc043ed5d9779733/16:9/w_4288,h_2412,c_limit/BlackForest-Germany-GettyImages-147180370.jpg'
+
     }
 
   ]

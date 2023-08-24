@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
 import { TabsPageRoutingModule } from './tabs-routing.module';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { TabsPage } from './tabs.page';
 
@@ -14,7 +15,8 @@ import { TabsPage } from './tabs.page';
     CommonModule,
     FormsModule,
     TabsPageRoutingModule,
-    MatIconModule
+    MatIconModule,
+    MatTabsModule
   ],
   declarations: [TabsPage]
 })
