@@ -7,13 +7,19 @@ import { IonicModule } from '@ionic/angular';
 import { ImagenDetallePageRoutingModule } from './imagen-detalle-routing.module';
 
 import { ImagenDetallePage } from './imagen-detalle.page';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ImagenDetallePageRoutingModule
+    ImagenDetallePageRoutingModule,
+    MatIconModule,
+    MatCardModule,
+    MatButtonModule,
   ],
   declarations: [ImagenDetallePage]
 })
