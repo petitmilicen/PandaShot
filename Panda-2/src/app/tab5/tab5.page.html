@@ -10,4 +10,19 @@
       <ion-title size="large">Notificaciones</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-list>
+    <ion-item *ngFor="let notification of notifications">
+      <ion-avatar slot="start">
+        <img [src]="notification.userAvatarUrl" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ notification.title }}</h2>
+        <p>{{ notification.message }}</p>
+        <ion-text class="ion-text-end">
+          <p>{{ notification.fecha }}</p>
+        </ion-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
