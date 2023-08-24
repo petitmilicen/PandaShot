@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>{{ imagen?.titulo }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="Volver"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -20,6 +23,9 @@
         </button>
         <button mat-icon-button color="black" aria-label="Example icon button with a bookmark icon">
           <mat-icon>bookmark</mat-icon>
+        </button>
+        <button mat-icon-button color="black" aria-label="Example icon button with a bookmark icon">
+          <mat-icon>more_vert</mat-icon>
         </button>
       </mat-card-actions>
   </mat-card>
