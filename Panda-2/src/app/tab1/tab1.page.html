@@ -17,17 +17,35 @@
     <ion-row>
 
       <ion-col size="6" *ngFor="let imagen of imagenes">
-        <ion-card>
-          <ion-img alt="" [src]="imagen.imagenURL"/>
-          <ion-card-header>
-            <a [routerLink]="['/tabs/imagenes', imagen.id]" style="text-decoration: none;">
-            <ion-card-title>{{imagen.titulo}}</ion-card-title>
-            </a>
-            <ion-card-subtitle>Por: {{imagen.autor}}</ion-card-subtitle>
-          </ion-card-header>
-        </ion-card>
+        <mat-card class="example-card">
+
+          <div class="ion-margin" style="position: absolute; top: 0; right: 0;">
+            <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+          </div>
+          <a [routerLink]="['/tabs/imagenes', imagen.id]">
+          <img mat-card-image [src]="imagen.imagenURL" alt=""  >
+          </a>
+          <mat-card-header>
+          
+            <mat-card-title>{{imagen.titulo}}</mat-card-title>
+            
+            <mat-card-subtitle>Por {{imagen.autor}}</mat-card-subtitle>
+          </mat-card-header>
+          
+          <mat-card-actions>
+            <button mat-icon-button matTooltip="Warn" color="warn" aria-label="Example icon-button with a heart icon">
+              <mat-icon>favorite</mat-icon>
+            </button>
+
+            <button mat-icon-button color="black" aria-label="Example icon button with a bookmark icon">
+              <mat-icon>bookmark</mat-icon>
+            </button>
+
+          </mat-card-actions>
+        </mat-card>
       </ion-col>
-      
 
     </ion-row>
   </ion-grid>
