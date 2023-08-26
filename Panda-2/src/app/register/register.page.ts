@@ -12,17 +12,14 @@ export class RegisterPage implements OnInit {
   constructor(private router: Router, private usuariosServicio: UsuariosServicioService) { }
 
   public usuarios: any[] = [{
-    
   }];
 
   ngOnInit() {
     this.usuarios = this.usuariosServicio.getUsuarios();
-
   }
 
   user = { username: '', email: '', contrasena: '' };
   confirmContrasena = '';
-
 
   registerUser() {
     if (this.user.contrasena !== this.confirmContrasena) {
@@ -30,7 +27,7 @@ export class RegisterPage implements OnInit {
       return;
     }
 
-    if (!this.validateEmail(this.user.email)) {
+    if (!this.usuariosServicio.validateEmail(this.user.email)) {
       console.log("Correo electrónico inválido");
       return;
     }
@@ -52,11 +49,6 @@ export class RegisterPage implements OnInit {
     this.user.email = '';
     this.user.contrasena = '';
     this.confirmContrasena = '';
-  }
-
-  validateEmail(email: string): boolean {
-    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return pattern.test(email);
   }
 
 }

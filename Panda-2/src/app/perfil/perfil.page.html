@@ -14,13 +14,13 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-card class="profile-card">
+  <ion-card class="profile-card" *ngIf="usuarioLogueado;">
     <div class="profile-picture">
       <ion-img class="circular-image" src="https://i.pinimg.com/564x/c7/ac/68/c7ac68c45a1927de8f4bcdbf5517b583.jpg" alt="Foto de perfil"></ion-img>
     </div>
 
     <div class="profile-details">
-      <ion-label class="profile-name">Danilo</ion-label>
+      <ion-label class="profile-name">{{usuarioLogueado.usuario}}</ion-label>
     </div>
     <div class="profile-details">
       <ion-label class="profile-description">Me gustan los tacos :D.</ion-label>
@@ -28,13 +28,13 @@
     <div class="profile-details">
       <ion-label class="profile-date">Se unió el 25 de Agosto, 2023</ion-label>
     </div>
-
     <ion-row class="profile-button-row">
       <ion-col class="ion-text-center">
         <ion-button expand="full" color="primary" shape="round">Modificar perfil</ion-button>
       </ion-col>
     </ion-row>
   </ion-card>
+
 </ion-content>
 
 <style>

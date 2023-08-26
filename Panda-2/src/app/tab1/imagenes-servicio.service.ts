@@ -44,7 +44,7 @@ export class ImagenesServicioService {
 
     }
 
-  ]
+  ];
 
   constructor() { }
 
@@ -60,4 +60,18 @@ export class ImagenesServicioService {
     };
   }
 
+  addImagen(titulo: string, autor: string, imagenURL: string) {
+    this.imagenes.push({
+      id: this.imagenes.length + 1 + "",
+      titulo,
+      autor,
+      imagenURL
+    });
+  }
+
+  deleteImagen(imagenId: string) {
+    this.imagenes = this.imagenes.filter(imagen =>{
+      return imagen.id !== imagenId
+    });
+  }
 }
