@@ -3,9 +3,17 @@
     <ion-title>
       Buscar
     </ion-title>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-searchbar show-cancel-button="focus" placeholder="Buscar" cancel-button-text="Custom Cancel">
+  </ion-searchbar>
 
-</ion-content>
+  <ion-chip>Dibujos</ion-chip>
+  <ion-chip color="secondary">Imagenes divertidas</ion-chip>
+  <ion-chip color="tertiary">Pixel Art</ion-chip>
+  <ion-chip color="success">Comics</ion-chip>
+  <ion-chip color="warning">Tatuajes Minimalistas</ion-chip>
+  <ion-chip color="danger">Videojuegos</ion-chip>
