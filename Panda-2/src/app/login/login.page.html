@@ -2,18 +2,18 @@
 
 <ion-content [fullscreen]="true" class="ion-text-center">
 
-  <form >
+  <form (submit)="loginUser()">
   <ion-item class="ion-margin">
     <ion-label position="floating">Correo electrónico</ion-label>
-    <ion-input placeholder="Ingresa tu correo electrónico"></ion-input>
+    <ion-input placeholder="Ingresa tu correo electrónico" [(ngModel)]="user.email" name="email"></ion-input>
   </ion-item>
 
   <ion-item class="ion-margin">
     <ion-label position="floating">Contraseña</ion-label>
-    <ion-input type="password" placeholder="Ingresa tu contraseña"></ion-input>
+    <ion-input type="password" placeholder="Ingresa tu contraseña" [(ngModel)]="user.contrasena" name="contrasena"></ion-input>
   </ion-item>
 
-  <ion-button shape="round" expand="full" class="ion-margin" [routerLink]="['/tabs/imagenes']">Iniciar sesión</ion-button>
+  <ion-button shape="round" expand="full" class="ion-margin" type="submit">Iniciar sesión</ion-button>
   </form>
 
   <p class="ion-margin">

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UsuariosServicioService } from './usuarios-servicio.service';
 
 @Component({
   selector: 'app-register',
@@ -8,16 +9,20 @@ import { Router } from '@angular/router';
 })
 export class RegisterPage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private usuariosServicio: UsuariosServicioService) { }
+
+  public usuarios: any[] = [{
+    
+  }];
 
   ngOnInit() {
+    this.usuarios = this.usuariosServicio.getUsuarios();
+
   }
 
   user = { username: '', email: '', contrasena: '' };
   confirmContrasena = '';
-  public users: any[] = [{
-    
-  }];
+
 
   registerUser() {
     if (this.user.contrasena !== this.confirmContrasena) {
@@ -30,15 +35,14 @@ export class RegisterPage implements OnInit {
       return;
     }
 
-    this.users.push({
-      username: this.user.username,
+    this.usuariosServicio.addUsuario({
+      usuario: this.user.username,
       email: this.user.email,
-      password: this.user.contrasena,
-      
+      contrasena: this.user.contrasena, 
     });
-    console.log(this.users);
+    
+    console.log(this.usuariosServicio.getUsuarios());
     this.clearForm();
-
     this.router.navigate(['/login']);
     
   }
