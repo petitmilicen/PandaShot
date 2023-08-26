@@ -14,14 +14,17 @@
     </ion-fab-button>
     <ion-fab-list side="top">
 
-      <ion-fab-button>
+      <ion-fab-button [routerLink]="['/login']">
         <mat-icon>exit_to_app</mat-icon>
       </ion-fab-button>
-      <ion-fab-button>
-        <mat-icon>more_vert</mat-icon>
+      <ion-fab-button [routerLink]="['/opciones']">
+        <mat-icon>settings</mat-icon>
       </ion-fab-button>
       <ion-fab-button>
         <mat-icon>add_circle</mat-icon>
+      </ion-fab-button>
+      <ion-fab-button [routerLink]="['/perfil']">
+        <mat-icon>person</mat-icon>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>

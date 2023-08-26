@@ -18,6 +18,14 @@ const routes: Routes = [
     path: 'recuperacion',
     loadChildren: () => import('./recuperacion/recuperacion.module').then( m => m.RecuperacionPageModule)
   },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+  {
+    path: 'opciones',
+    loadChildren: () => import('./opciones/opciones.module').then( m => m.OpcionesPageModule)
+  },
 
 ];
 @NgModule({
