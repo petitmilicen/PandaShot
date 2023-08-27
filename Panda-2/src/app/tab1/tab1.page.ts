@@ -21,7 +21,10 @@ export class Tab1Page {
     console.log(this.imagenes);
   }
 
-
-  
+  ionViewWillEnter(){
+    this.imagenes = this.imagenesServicio.getImagenes();
+    this.usuarioLogueado = this.usuariosServicio.getUsuarioLogueado();
+    console.log(this.imagenes);
+  }
 
 }
