@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Agregar imagen</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form (ngSubmit)="guardarNuevaImagen()">
+    <ion-item class="ion-margin">
+      <ion-label position="floating">Titulo</ion-label>
+      <ion-input placeholder="Ingresa el titulo de la imagen" [(ngModel)]="img.titulo" required></ion-input>
+    </ion-item>
+
+    <ion-item class="ion-margin">
+      <ion-label position="floating">Link</ion-label>
+      <ion-input placeholder="Ingresa el link de la imagen" [(ngModel)]="img.link" required></ion-input>
+    </ion-item>
+    
+    <ion-button class="ion-margin" shape="round" type="submit">
+      <mat-icon>save</mat-icon>
+    </ion-button>
+  </form>
+</ion-content>
+

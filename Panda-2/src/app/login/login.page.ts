@@ -29,12 +29,13 @@ export class LoginPage implements OnInit {
     );
   
     if (user) {
+      this.usuariosServicio.setUsuarioLogueado(user);
       console.log("Inicio de sesión exitoso");
       this.router.navigate(['/tabs/imagenes']);
     } else {
       console.log("Usuario no existe o las credenciales son incorrectas");
     }
   }
-  
+
 }
 

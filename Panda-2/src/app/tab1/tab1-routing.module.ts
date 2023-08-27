@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path: 'imagen-detalle',
     loadChildren: () => import('./imagen-detalle/imagen-detalle.module').then( m => m.ImagenDetallePageModule)
+  },
+  {
+    path: 'agregar-imagen',
+    loadChildren: () => import('./agregar-imagen/agregar-imagen.module').then( m => m.AgregarImagenPageModule)
   }
 ];
 
