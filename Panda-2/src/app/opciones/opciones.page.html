@@ -15,20 +15,34 @@
   </ion-header>
   
   <ion-list lines="full">
-    <ion-item>
+    <ion-item [routerLink]="['/cuenta']">
+      <ion-icon slot="start" name="person"></ion-icon>
+      <ion-label>Cuenta</ion-label>
+    </ion-item>
+
+    <ion-item [routerLink]="['/privacidad']">
       <ion-icon slot="start" name="lock-closed"></ion-icon>
       <ion-label>Privacidad</ion-label>
     </ion-item>
-    <ion-item>
+    
+    <ion-item [routerLink]="['/seguridad']">
       <ion-icon slot="start" name="shield-checkmark"></ion-icon>
       <ion-label>Seguridad</ion-label>
     </ion-item>
-    <ion-item>
-      <ion-icon slot="start" name="moon"></ion-icon>
-      <ion-label>Modo Oscuro</ion-label>
-      <ion-toggle slot="end"></ion-toggle>
-    </ion-item>
     
-    <!-- Agrega más opciones de configuración aquí si es necesario -->
+    <ion-item [routerLink]="['/configuracion']">
+      <ion-icon slot="start" name="color-palette"></ion-icon>
+      <ion-label>Configuración de la Interfaz</ion-label>
+    </ion-item>
+
+    <ion-item [routerLink]="['/contenido']">
+      <ion-icon slot="start" name="heart"></ion-icon>
+      <ion-label>Preferencias de Contenido</ion-label>
+    </ion-item>
+
+    <ion-item [routerLink]="['/acerca']">
+      <ion-icon slot="start" name="information-circle"></ion-icon>
+      <ion-label>Acerca de la Aplicación</ion-label>
+    </ion-item>
   </ion-list>
 </ion-content>

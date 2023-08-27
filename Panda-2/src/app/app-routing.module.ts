@@ -26,6 +26,30 @@ const routes: Routes = [
     path: 'opciones',
     loadChildren: () => import('./opciones/opciones.module').then( m => m.OpcionesPageModule)
   },
+  {
+    path: 'cuenta',
+    loadChildren: () => import('./Configuracion/cuenta/cuenta.module').then( m => m.CuentaPageModule)
+  },
+  {
+    path: 'privacidad',
+    loadChildren: () => import('./Configuracion/privacidad/privacidad.module').then( m => m.PrivacidadPageModule)
+  },
+  {
+    path: 'seguridad',
+    loadChildren: () => import('./Configuracion/seguridad/seguridad.module').then( m => m.SeguridadPageModule)
+  },
+  {
+    path: 'configuracion',
+    loadChildren: () => import('./Configuracion/configuracion/configuracion.module').then( m => m.ConfiguracionPageModule)
+  },
+  {
+    path: 'contenido',
+    loadChildren: () => import('./Configuracion/contenido/contenido.module').then( m => m.ContenidoPageModule)
+  },
+  {
+    path: 'acerca',
+    loadChildren: () => import('./Configuracion/acerca/acerca.module').then( m => m.AcercaPageModule)
+  },
 
 ];
 @NgModule({

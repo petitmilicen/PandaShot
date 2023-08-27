@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/imagenes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>configuracion</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">configuracion de la interfaz</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list lines="full">
+    <ion-item>
+      <ion-label>Tema de la Aplicación</ion-label>
+      <ion-select>
+        <ion-select-option value="claro">Claro</ion-select-option>
+        <ion-select-option value="oscuro">Oscuro</ion-select-option>
+        <ion-select-option value="automatico">Automático</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <!-- Agrega más opciones de configuración de la interfaz aquí -->
+  </ion-list>
+</ion-content>

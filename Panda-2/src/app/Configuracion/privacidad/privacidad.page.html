@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/imagenes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Privacidad</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="full">
+    <ion-item>
+      <ion-label>Visibilidad de Perfil</ion-label>
+      <ion-select>
+        <ion-select-option value="publico">Público</ion-select-option>
+        <ion-select-option value="privado">Privado</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <!-- Agrega más opciones de privacidad aquí -->
+  </ion-list>
+</ion-content>

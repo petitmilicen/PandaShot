@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/imagenes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Contenido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Contenido</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-list lines="full">
+    <ion-item>
+      <ion-label>Intereses Preferidos</ion-label>
+      <ion-input placeholder="Agregar intereses"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Filtrar Contenido para Adultos</ion-label>
+      <ion-toggle></ion-toggle>
+    </ion-item>
+    <!-- Agrega más opciones de preferencias de contenido aquí -->
+  </ion-list>
+</ion-content>
