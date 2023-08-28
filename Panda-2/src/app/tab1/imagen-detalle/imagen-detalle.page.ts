@@ -43,7 +43,7 @@ export class ImagenDetallePage implements OnInit {
   async deleteImagen(){
     
     const alert = await this.alertController.create({
-      header: 'Alerta',
+      header: 'Advertencia',
       message: '¿Seguro que quieres borrar la imagen?',
       buttons: [
         {
