@@ -12,6 +12,7 @@ export class LoginPage implements OnInit {
   constructor(private router: Router,  private usuariosServicio: UsuariosServicioService) { }
 
   user = { username: '', email: '', contrasena: '' };
+  loginError = false;
 
   ngOnInit() {
     console.log(this.usuariosServicio.getUsuarios())   
@@ -34,6 +35,7 @@ export class LoginPage implements OnInit {
       this.router.navigate(['/tabs/imagenes']);
     } else {
       console.log("Usuario no existe o las credenciales son incorrectas");
+      this.loginError = true;
     }
   }
 

@@ -32,17 +32,16 @@ export class ImagenesServicioService {
     {
       id: '4',
       autor: 'Danilo',
-      titulo: 'Planeta azul',
-      imagenURL: 'https://www.nationalgeographic.com.es/medio/2022/08/03/el-planeta-neptuno_bfb396f8_1280x1278.jpg'
+      titulo: 'Bosque',
+      imagenURL: 'https://media.cntraveler.com/photos/5eb18e42fc043ed5d9779733/16:9/w_4288,h_2412,c_limit/BlackForest-Germany-GettyImages-147180370.jpg'
 
     },
     {
       id: '5',
-      autor: 'Danilo',
-      titulo: 'Bosque',
-      imagenURL: 'https://media.cntraveler.com/photos/5eb18e42fc043ed5d9779733/16:9/w_4288,h_2412,c_limit/BlackForest-Germany-GettyImages-147180370.jpg'
-
-    }
+      autor: 'Diego',
+      titulo: 'El bicho',
+      imagenURL: 'https://cdn1.unitedinfocus.com/uploads/14/2022/04/GettyImages-1240307962-1024x683.jpg'
+    },
 
   ];
 

@@ -35,7 +35,7 @@ export class UsuariosServicioService {
     return this.usuarioLogueado;
   }
 
-  setUsuarioLogueado(usuario: Usuario) {
+  setUsuarioLogueado(usuario: Usuario | null) {
     this.usuarioLogueado = usuario;
   }
 }

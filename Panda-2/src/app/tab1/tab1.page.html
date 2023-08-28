@@ -13,7 +13,6 @@
       <mat-icon>menu</mat-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-
       <ion-fab-button [routerLink]="['/login']" *ngIf="usuarioLogueado;">
         <mat-icon>exit_to_app</mat-icon>
       </ion-fab-button>
@@ -23,7 +22,7 @@
       <ion-fab-button *ngIf="usuarioLogueado;">
         <mat-icon [routerLink]="['/tabs/imagenes/agregar-imagen']">add_circle</mat-icon>
       </ion-fab-button>
-      <ion-fab-button [routerLink]="['/perfil']" *ngIf="usuarioLogueado;">
+      <ion-fab-button (click)="cerrarSesion();" *ngIf="usuarioLogueado;">
         <mat-icon>person</mat-icon>
       </ion-fab-button>
     </ion-fab-list>
