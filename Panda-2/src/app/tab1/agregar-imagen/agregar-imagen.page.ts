@@ -16,21 +16,14 @@ export class AgregarImagenPage implements OnInit {
 
   ngOnInit() {
     this.usuarioLogueado = this.usuariosServicio.getUsuarioLogueado();
-    console.log(this.usuarioLogueado?.usuario);
-    
   }
 
   img = { titulo: '', link: ''};
 
   guardarNuevaImagen() {
     console.log(this.img, this.img.link);
-    
     const autor = this.usuarioLogueado?.usuario + "";
-
     this.imagenesServicio.addImagen(this.img.titulo, autor, this.img.link);
-
-
-    console.log(this.img.titulo, autor, this.img.link);
     
     console.log('Imagen guardada correctamente');
       this.router.navigate(['/tabs/imagenes']);

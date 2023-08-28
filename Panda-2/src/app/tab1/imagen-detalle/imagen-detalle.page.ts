@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ImagenesServicioService } from '../imagenes-servicio.service';
 import { Imagen } from '../imagen.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-imagen-detalle',
@@ -12,7 +13,7 @@ export class ImagenDetallePage implements OnInit {
 
   imagen: Imagen | null = null;
 
-  constructor(private activatedRoute: ActivatedRoute, private imagenesServicio: ImagenesServicioService) { }
+  constructor(private activatedRoute: ActivatedRoute, private imagenesServicio: ImagenesServicioService, private router: Router) { }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(paramMap => {
@@ -36,6 +37,11 @@ export class ImagenDetallePage implements OnInit {
         console.log('Id es nula');
       }
     });
+  }
+
+  deleteImagen(){
+    this.imagenesServicio.deleteImagen(this.imagen?.id + "");    
+    this.router.navigate(['/tabs/imagenes']);
   }
 
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {MatMenuModule} from '@angular/material/menu';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -20,6 +21,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatCardModule,
     MatButtonModule,
+    MatMenuModule,  
+    
   ],
   declarations: [ImagenDetallePage]
 })
