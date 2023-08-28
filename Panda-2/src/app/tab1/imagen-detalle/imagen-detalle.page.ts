@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ImagenesServicioService } from '../imagenes-servicio.service';
 import { Imagen } from '../imagen.model';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-imagen-detalle',
@@ -13,7 +14,7 @@ export class ImagenDetallePage implements OnInit {
 
   imagen: Imagen | null = null;
 
-  constructor(private activatedRoute: ActivatedRoute, private imagenesServicio: ImagenesServicioService, private router: Router) { }
+  constructor(private activatedRoute: ActivatedRoute, private imagenesServicio: ImagenesServicioService, private router: Router, private alertController: AlertController) { }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(paramMap => {
@@ -39,9 +40,27 @@ export class ImagenDetallePage implements OnInit {
     });
   }
 
-  deleteImagen(){
-    this.imagenesServicio.deleteImagen(this.imagen?.id + "");    
-    this.router.navigate(['/tabs/imagenes']);
+  async deleteImagen(){
+    
+    const alert = await this.alertController.create({
+      header: 'Alerta',
+      message: '¿Seguro que quieres borrar la imagen?',
+      buttons: [
+        {
+          text:"Cancelar",
+          role:"cancel",
+         },
+         {
+          text:"Borrar",
+          handler: () => {
+            this.imagenesServicio.deleteImagen(this.imagen?.id + "");    
+            this.router.navigate(['/tabs/imagenes']);
+          }
+        }]
+      
+    });
+
+    await alert.present();
   }
 
 }
