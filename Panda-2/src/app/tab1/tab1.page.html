@@ -37,11 +37,6 @@
           <a [routerLink]="['/tabs/imagenes', imagen.id]">
             <img mat-card-image [src]="imagen.imagenURL" alt="">
           </a>
-          <div class="ion-margin" style="position: absolute; top: 0; right: 0;">
-            <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
-              <mat-icon style="color: white;">more_vert</mat-icon>
-            </button>
-          </div>
           <mat-card-header class="custom-card-header">
             <mat-card-title>{{imagen.titulo}}</mat-card-title>
             <mat-card-subtitle>Por {{imagen.autor}}</mat-card-subtitle>
