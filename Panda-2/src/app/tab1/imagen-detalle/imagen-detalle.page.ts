@@ -49,15 +49,14 @@ export class ImagenDetallePage implements OnInit {
         {
           text:"Cancelar",
           role:"cancel",
-         },
-         {
+        },
+        {
           text:"Borrar",
           handler: () => {
             this.imagenesServicio.deleteImagen(this.imagen?.id + "");    
             this.router.navigate(['/tabs/imagenes']);
-          }
+        }
         }]
-      
     });
 
     await alert.present();

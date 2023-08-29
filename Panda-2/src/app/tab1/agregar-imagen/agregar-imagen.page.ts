@@ -12,6 +12,10 @@ import { Usuario } from 'src/app/register/usuario.model';
 export class AgregarImagenPage implements OnInit {
   usuarioLogueado: Usuario | null | undefined;
 
+  tituloError = false;
+  linkError = false;
+  imagenGuardadaToast = false;
+
   constructor(private imagenesServicio: ImagenesServicioService, private router: Router, private usuariosServicio: UsuariosServicioService) { }
 
   ngOnInit() {
@@ -21,14 +25,31 @@ export class AgregarImagenPage implements OnInit {
   img = { titulo: '', link: ''};
 
   guardarNuevaImagen() {
-    console.log(this.img, this.img.link);
+    this.tituloError = false;
+    this.linkError = false;
+
+    if (this.img.titulo.length < 3) {
+      this.tituloError = true;
+      return;
+    }
+
+    if (!this.isValidURL(this.img.link)) {
+      this.linkError = true;
+      return;
+    }
     const autor = this.usuarioLogueado?.usuario + "";
+
     this.imagenesServicio.addImagen(this.img.titulo, autor, this.img.link);
+    this.imagenGuardadaToast = true;
+    this.router.navigate(['/tabs/imagenes']);  
     
     console.log('Imagen guardada correctamente');
-      this.router.navigate(['/tabs/imagenes']);
       
+  }
 
+  isValidURL(url: string): boolean {
+    const urlPattern = /^(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- ;,./?%&=]*)?$/;
+    return urlPattern.test(url);
   }
 
 }
