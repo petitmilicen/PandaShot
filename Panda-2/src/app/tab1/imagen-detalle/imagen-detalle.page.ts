@@ -19,10 +19,10 @@ export class ImagenDetallePage implements OnInit {
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(paramMap => {
       const imagenId = paramMap.get('imagenId');
-  
+
       if (imagenId) {
         const imagen = this.imagenesServicio.getImagen(imagenId);
-        
+
         if (imagen) {
           this.imagen = {
             id: imagen.id || '',
@@ -40,22 +40,22 @@ export class ImagenDetallePage implements OnInit {
     });
   }
 
-  async deleteImagen(){
-    
+  async deleteImagen() {
+
     const alert = await this.alertController.create({
       header: 'Advertencia',
       message: '¿Seguro que quieres borrar la imagen?',
       buttons: [
         {
-          text:"Cancelar",
-          role:"cancel",
+          text: "Cancelar",
+          role: "cancel",
         },
         {
-          text:"Borrar",
+          text: "Borrar",
           handler: () => {
-            this.imagenesServicio.deleteImagen(this.imagen?.id + "");    
+            this.imagenesServicio.deleteImagen(this.imagen?.id + "");
             this.router.navigate(['/tabs/imagenes']);
-        }
+          }
         }]
     });
 
