@@ -8,48 +8,53 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule)
   },
   {
     path: 'recuperacion',
-    loadChildren: () => import('./recuperacion/recuperacion.module').then( m => m.RecuperacionPageModule)
+    loadChildren: () => import('./recuperacion/recuperacion.module').then(m => m.RecuperacionPageModule)
   },
   {
     path: 'perfil',
-    loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)
+    loadChildren: () => import('./perfil/perfil.module').then(m => m.PerfilPageModule)
   },
   {
     path: 'opciones',
-    loadChildren: () => import('./opciones/opciones.module').then( m => m.OpcionesPageModule)
+    loadChildren: () => import('./opciones/opciones.module').then(m => m.OpcionesPageModule)
   },
   {
     path: 'cuenta',
-    loadChildren: () => import('./Configuracion/cuenta/cuenta.module').then( m => m.CuentaPageModule)
+    loadChildren: () => import('./Configuracion/cuenta/cuenta.module').then(m => m.CuentaPageModule)
   },
   {
     path: 'privacidad',
-    loadChildren: () => import('./Configuracion/privacidad/privacidad.module').then( m => m.PrivacidadPageModule)
+    loadChildren: () => import('./Configuracion/privacidad/privacidad.module').then(m => m.PrivacidadPageModule)
   },
   {
     path: 'seguridad',
-    loadChildren: () => import('./Configuracion/seguridad/seguridad.module').then( m => m.SeguridadPageModule)
+    loadChildren: () => import('./Configuracion/seguridad/seguridad.module').then(m => m.SeguridadPageModule)
   },
   {
     path: 'configuracion',
-    loadChildren: () => import('./Configuracion/configuracion/configuracion.module').then( m => m.ConfiguracionPageModule)
+    loadChildren: () => import('./Configuracion/configuracion/configuracion.module').then(m => m.ConfiguracionPageModule)
   },
   {
     path: 'contenido',
-    loadChildren: () => import('./Configuracion/contenido/contenido.module').then( m => m.ContenidoPageModule)
+    loadChildren: () => import('./Configuracion/contenido/contenido.module').then(m => m.ContenidoPageModule)
   },
   {
     path: 'acerca',
-    loadChildren: () => import('./Configuracion/acerca/acerca.module').then( m => m.AcercaPageModule)
+    loadChildren: () => import('./Configuracion/acerca/acerca.module').then(m => m.AcercaPageModule)
   },
+  {
+    path: 'editar-perfil',
+    loadChildren: () => import('./editar-perfil/editar-perfil.module').then(m => m.EditarPerfilPageModule)
+  },
+
 
 ];
 @NgModule({
