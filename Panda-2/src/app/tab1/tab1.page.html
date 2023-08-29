@@ -22,7 +22,7 @@
       <ion-fab-button *ngIf="usuarioLogueado;">
         <mat-icon [routerLink]="['/tabs/imagenes/agregar-imagen']">add_circle</mat-icon>
       </ion-fab-button>
-      <ion-fab-button [routerLink]="['/perfil']">
+      <ion-fab-button *ngIf="usuarioLogueado;" [routerLink]="['/perfil']">
         <mat-icon>person</mat-icon>
       </ion-fab-button>
     </ion-fab-list>
