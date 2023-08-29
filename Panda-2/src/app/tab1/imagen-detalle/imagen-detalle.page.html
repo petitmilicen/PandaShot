@@ -6,7 +6,6 @@
     <ion-buttons slot="end">
       <ion-button (click)="deleteImagen()">
         <ion-icon name="trash"></ion-icon>
-      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -15,15 +14,15 @@
 <ion-content>
 
   <mat-card class="example-card">
-      
+
     <img mat-card-image [src]="imagen?.imagenURL" alt="">
     <mat-card-header style="padding-left: 6px;">
       <mat-card-title>{{imagen?.titulo}}</mat-card-title>
       <mat-card-subtitle>Por {{imagen?.autor}}</mat-card-subtitle>
     </mat-card-header>
-    
+
     <mat-card-actions>
-      
+
       <button mat-icon-button matTooltip="Warn" color="warn">
         <mat-icon>favorite</mat-icon>
       </button>
@@ -32,17 +31,16 @@
         <mat-icon>bookmark</mat-icon>
       </button>
 
-      <button mat-icon-button color="black"> 
-      <mat-icon>share</mat-icon>
+      <button mat-icon-button color="black">
+        <mat-icon>share</mat-icon>
       </button>
 
       <button mat-icon-button color="black">
-      <mat-icon>save_alt</mat-icon>
-      </button> 
+        <mat-icon>save_alt</mat-icon>
+      </button>
 
     </mat-card-actions>
 
   </mat-card>
 
 </ion-content>
-
