@@ -50,6 +50,10 @@ const routes: Routes = [
     path: 'acerca',
     loadChildren: () => import('./Configuracion/acerca/acerca.module').then( m => m.AcercaPageModule)
   },
+  {
+    path: 'bienvenida',
+    loadChildren: () => import('./bienvenida/bienvenida.module').then( m => m.BienvenidaPageModule)
+  },
 
 ];
 @NgModule({
