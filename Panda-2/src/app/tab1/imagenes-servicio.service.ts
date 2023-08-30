@@ -42,17 +42,32 @@ export class ImagenesServicioService {
       titulo: 'El bicho',
       imagenURL: 'https://cdn1.unitedinfocus.com/uploads/14/2022/04/GettyImages-1240307962-1024x683.jpg'
     },
+    {
+      id: '6',
+      autor: 'Denilxon',
+      titulo: 'Tanuki',
+      imagenURL: 'https://blog-vetterapp.s3.amazonaws.com/tanuki_0_a5f9967776.jpg'
+
+    },
+    {
+      id: '7',
+      autor: 'Denilxon',
+      titulo: 'Chilena CR7',
+      imagenURL: 'https://c.files.bbci.co.uk/15EB3/production/_100697798_hi045932006b.jpg'
+
+    },
+
 
   ];
 
   constructor() { }
 
-  getImagenes(){
-    return[...this.imagenes]
+  getImagenes() {
+    return [...this.imagenes]
   };
 
-  getImagen(placeId: string){
-    return{
+  getImagen(placeId: string) {
+    return {
       ...this.imagenes.find(imagen => {
         return imagen.id === placeId
       })
@@ -69,7 +84,7 @@ export class ImagenesServicioService {
   }
 
   deleteImagen(imagenId: string) {
-    this.imagenes = this.imagenes.filter(imagen =>{
+    this.imagenes = this.imagenes.filter(imagen => {
       return imagen.id !== imagenId
     });
   }
