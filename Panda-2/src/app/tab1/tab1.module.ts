@@ -8,8 +8,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
-
 import { Tab1PageRoutingModule } from './tab1-routing.module';
+
 
 @NgModule({
   imports: [
@@ -20,7 +20,8 @@ import { Tab1PageRoutingModule } from './tab1-routing.module';
     Tab1PageRoutingModule,
     MatCardModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    
     
   ],
   declarations: [Tab1Page]
