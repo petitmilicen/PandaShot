@@ -15,6 +15,18 @@ export class UsuariosServicioService {
       contrasena: 'asd123',
 
     },
+    {
+      usuario: 'Denilxon',
+      email: 'de.azua@duocuc.cl',
+      contrasena: 'asd123',
+
+    },
+    {
+      usuario: 'Matías',
+      email: 'mati.sandoval@duocuc.cl',
+      contrasena: 'asd123',
+
+    },
   ];
   private usuarioLogueado: Usuario | null = null; 
 

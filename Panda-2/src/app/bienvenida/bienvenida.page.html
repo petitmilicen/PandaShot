@@ -4,10 +4,10 @@
 
 <ion-content [fullscreen]="true">
   <div class="welcome-container">
-    <ion-img src="assets/panda-shot-logo.png" class="logo"></ion-img>
+    <ion-img src="assets/ICONO/F8F0E5.png" class="logo"></ion-img>
     <h1 class="welcome-heading">¡Bienvenido a Panda Shot!</h1>
     <p class="welcome-text">Explora imágenes asombrosas capturadas por la comunidad, o comparte tus propias creaciones con el mundo.</p>
-    <ion-button expand="block" shape="round" class="custom-button">
+    <ion-button expand="block" shape="round" class="custom-button" [routerLink]="['/login']">
       Continuar
       <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
     </ion-button>

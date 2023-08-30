@@ -1,42 +1,45 @@
-<ion-header [translucent]="true"></ion-header>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content [fullscreen]="true" class="ion-text-center">
-  
-  <form (ngSubmit)="registerUser()">
-  
-  <ion-item class="ion-margin">
-    <ion-label position="floating">Usuario</ion-label>
-    <ion-input placeholder="Ingresa tu nombre de Usuario" [(ngModel)]="user.username" name="username" required></ion-input>
-  </ion-item>
-  <div class="error-message" *ngIf="showUsernameError">El nombre de usuario ya está en uso</div>
-  <div class="error-message" *ngIf="showUsernameCaracteres">El nombre debe tener al menos 3 caracteres</div>
-  
-  <ion-item class="ion-margin">
-    <ion-label position="floating">Correo electrónico</ion-label>
-    <ion-input placeholder="Ingresa tu correo electrónico" [(ngModel)]="user.email" name="email" required></ion-input>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center ion-align-items-center">
+      <ion-col size-md="6" size-lg="4">
+        <form (ngSubmit)="registerUser()">
+          <ion-item class="ion-margin">
+            <ion-label position="floating">Usuario</ion-label>
+            <ion-input placeholder="Ingresa tu nombre de Usuario" [(ngModel)]="user.username" name="username" required></ion-input>
+          </ion-item>
+          <div class="error-message" *ngIf="showUsernameError">El nombre de usuario ya está en uso</div>
+          <div class="error-message" *ngIf="showUsernameCaracteres">El nombre debe tener al menos 3 caracteres</div>
 
-  </ion-item>
-  <div class="error-message" *ngIf="showEmailError">El correo electrónico es invalido</div>
-  <div class="error-message" *ngIf="showEmailDuplicado">El correo electrónico ya está registrado</div>
+          <ion-item class="ion-margin">
+            <ion-label position="floating">Correo electrónico</ion-label>
+            <ion-input placeholder="Ingresa tu correo electrónico" [(ngModel)]="user.email" name="email" required></ion-input>
+          </ion-item>
+          <div class="error-message" *ngIf="showEmailError">El correo electrónico es invalido</div>
+          <div class="error-message" *ngIf="showEmailDuplicado">El correo electrónico ya está registrado</div>
 
-  <ion-item class="ion-margin">
-    <ion-label position="floating">Contraseña</ion-label>
-    <ion-input type="password" placeholder="Ingresa tu contraseña" [(ngModel)]="user.contrasena" name="contrasena" required></ion-input>
-  </ion-item>
-  <div class="error-message" *ngIf="showPasswordError">La contraseña debe tener al menos 8 caracteres y contener al menos un número.</div>
+          <ion-item class="ion-margin">
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" placeholder="Ingresa tu contraseña" [(ngModel)]="user.contrasena" name="contrasena" required></ion-input>
+          </ion-item>
+          <div class="error-message" *ngIf="showPasswordError">La contraseña debe tener al menos 8 caracteres y contener al menos un número.</div>
 
-  <ion-item class="ion-margin">
-    <ion-label position="floating">Confirmar contraseña</ion-label>
-    <ion-input type="password" placeholder="Ingresa tu contraseña" [(ngModel)]="confirmContrasena" name="confirmContrasena" required></ion-input>
-  </ion-item>
-  <div class="error-message" *ngIf="showConfirmPasswordError">Las contraseñas no coinciden</div>
-  <ion-button class="ion-margin" shape="round" type="submit">Registrar cuenta</ion-button>
-  
-  </form>
+          <ion-item class="ion-margin">
+            <ion-label position="floating">Confirmar contraseña</ion-label>
+            <ion-input type="password" placeholder="Ingresa tu contraseña" [(ngModel)]="confirmContrasena" name="confirmContrasena" required></ion-input>
+          </ion-item>
+          <div class="error-message" *ngIf="showConfirmPasswordError">Las contraseñas no coinciden</div>
 
-  <div class="ion-float-center ion-margin">
-    <ion-button class="ion-margin" shape="round" [routerLink]="['/login']">Volver al inicio</ion-button>
-  </div>
-  
+          <ion-button class="ion-margin" shape="round" type="submit">Registrar cuenta</ion-button>
+        </form>
 
+        <ion-button class="ion-margin" shape="round" [routerLink]="['/login']">Volver al inicio</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

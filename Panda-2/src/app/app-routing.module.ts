@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { ErrorComponent } from './error/error.component';
 
 const routes: Routes = [
   {
-    path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    path: 'Bienvenida',
+    loadChildren: () => import('./bienvenida/bienvenida.module').then(m => m.BienvenidaPageModule)
   },
   {
     path: 'login',
@@ -46,10 +47,12 @@ const routes: Routes = [
     path: 'acerca',
     loadChildren: () => import('./Configuracion/acerca/acerca.module').then(m => m.AcercaPageModule)
   },
+  { path: '**', component: ErrorComponent },
   {
-    path: 'bienvenida',
-    loadChildren: () => import('./bienvenida/bienvenida.module').then(m => m.BienvenidaPageModule)
+    path: 'tabs',
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
+  
 
 ];
 @NgModule({
