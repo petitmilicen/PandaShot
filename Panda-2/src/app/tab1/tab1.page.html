@@ -37,7 +37,7 @@
             <img mat-card-image [src]="imagen.imagenURL" alt="">
           </a>
           <mat-card-header class="custom-card-header">
-            <mat-card-title>{{imagen.titulo}}</mat-card-title>
+            <mat-card-title>{{imagen.titulo| titlecase}}</mat-card-title>
             <mat-card-subtitle>Por {{imagen.autor}}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-actions class="custom-card-actions">
