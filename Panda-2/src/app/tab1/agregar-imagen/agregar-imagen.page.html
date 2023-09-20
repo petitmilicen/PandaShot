@@ -5,16 +5,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <form (ngSubmit)="guardarNuevaImagen()">
+  <form >
     <ion-item class="ion-margin">
       <ion-label position="floating">Titulo</ion-label>
-      <ion-input placeholder="Ingresa el titulo de la imagen" [(ngModel)]="img.titulo"  name="titulo" required></ion-input>
+      <ion-input placeholder="Ingresa el titulo de la imagen"  name="titulo" required></ion-input>
     </ion-item>
     <div class="error-message" *ngIf="tituloError" style="padding-left: 20px;">El titulo debe tener al menos 3 caracteres</div>
 
     <ion-item class="ion-margin">
       <ion-label position="floating">Link</ion-label>
-      <ion-input placeholder="Ingresa el link de la imagen" [(ngModel)]="img.link" name="link" required ></ion-input>
+      <ion-input placeholder="Ingresa el link de la imagen"  name="link" required ></ion-input>
     </ion-item>
     <div class="error-message" *ngIf="linkError" style="padding-left: 20px;">El texto tiene que ser un link</div>
     

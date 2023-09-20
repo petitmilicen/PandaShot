@@ -4,6 +4,7 @@ import { ImagenesServicioService } from '../imagenes-servicio.service';
 import { Imagen } from '../imagen.model';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { BdserviceService } from 'src/app/services/bdservice.service';
 
 @Component({
   selector: 'app-imagen-detalle',
@@ -14,34 +15,23 @@ export class ImagenDetallePage implements OnInit {
 
   imagen: Imagen | null = null;
 
-  constructor(private activatedRoute: ActivatedRoute, private imagenesServicio: ImagenesServicioService, private router: Router, private alertController: AlertController) { }
+  constructor(private activatedRoute: ActivatedRoute, private bdService: BdserviceService, private router: Router, private alertController: AlertController) { }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(paramMap => {
       const imagenId = paramMap.get('imagenId');
+      this.cargarImagen(Number(imagenId));
+    });
+  }
 
-      if (imagenId) {
-        const imagen = this.imagenesServicio.getImagen(imagenId);
-
-        if (imagen) {
-          this.imagen = {
-            id: imagen.id || '',
-            titulo: imagen.titulo || '',
-            autor: imagen.autor || '',
-            imagenURL: imagen.imagenURL || ''
-          };
-          console.log(this.imagen);
-        } else {
-          console.log('Imagen no encontrada');
-        }
-      } else {
-        console.log('Id es nula');
-      }
+  cargarImagen(id: number) {
+    this.bdService.getImagen(id).then((imagen) => {
+      this.imagen = imagen;
+      console.log(this.imagen);
     });
   }
 
   async deleteImagen() {
-
     const alert = await this.alertController.create({
       header: 'Advertencia',
       message: '¿Seguro que quieres borrar la imagen?',
@@ -53,12 +43,11 @@ export class ImagenDetallePage implements OnInit {
         {
           text: "Borrar",
           handler: () => {
-            this.imagenesServicio.deleteImagen(this.imagen?.id + "");
+            this.bdService.deleteImagen(Number(this.imagen?.id));
             this.router.navigate(['/tabs/imagenes']);
           }
         }]
     });
-
     await alert.present();
   }
 

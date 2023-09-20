@@ -6,7 +6,7 @@ import { Imagen } from "./imagen.model";
 })
 export class ImagenesServicioService {
 
-  public imagenes: Imagen[] = [
+  /*public imagenes: Imagen[] = [
 
     {
       id: '1',
@@ -60,7 +60,7 @@ export class ImagenesServicioService {
 
   ];
 
-  constructor() { }
+  
 
   getImagenes() {
     return [...this.imagenes]
@@ -87,5 +87,6 @@ export class ImagenesServicioService {
     this.imagenes = this.imagenes.filter(imagen => {
       return imagen.id !== imagenId
     });
-  }
+  }*/
+  constructor() { }
 }
