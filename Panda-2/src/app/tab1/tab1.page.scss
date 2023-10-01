@@ -8,4 +8,14 @@
     padding: 0%;
 }
 
+.image-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Distribuir el espacio entre las imágenes */
+    align-content: flex-start; /* Comenzar desde la parte superior */
+  }
   
+  .image-container ion-col {
+    flex: 0 0 calc(50% - 10px); /* Ajusta el 50% según el número de columnas deseadas */
+    margin-bottom: 10px; /* Espacio vertical entre las imágenes */
+  }
