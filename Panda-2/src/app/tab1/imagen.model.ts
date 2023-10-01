@@ -1,6 +1,7 @@
 export interface Imagen {
     id: string;
     titulo: string;
-    autor: string;
-    imagenURL: string;
+    imagen: string;
+    descripcion: string;
+    fecha: string
 }

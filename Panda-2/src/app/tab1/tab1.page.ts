@@ -3,6 +3,7 @@ import { ImagenesServicioService } from "./imagenes-servicio.service";
 import { UsuariosServicioService } from '../register/usuarios-servicio.service';
 import { Usuario } from '../register/usuario.model';
 import { Router } from '@angular/router';
+import { BdserviceService } from '../services/bdservice.service';
 
 @Component({
   selector: 'app-tab1',
@@ -11,27 +12,32 @@ import { Router } from '@angular/router';
   
 })
 export class Tab1Page {
+
   usuarioLogueado: Usuario | null | undefined;
   imagenes: any[] = [];
 
-  constructor(private imagenesServicio: ImagenesServicioService, private usuariosServicio: UsuariosServicioService, private router: Router) {}
+  constructor(private imagenesServicio: ImagenesServicioService, private usuariosServicio: UsuariosServicioService, private router: Router, private bdService: BdserviceService) {}
 
-  ngOnInit(){
-    this.imagenes = this.imagenesServicio.getImagenes();
-    this.usuarioLogueado = this.usuariosServicio.getUsuarioLogueado();
-    console.log(this.imagenes);
+  ngOnInit() {
+    this.bdService.getImagenes().then((imagenes) => {
+      this.imagenes = imagenes;
+
+      console.log('Datos de imágenes en la base de datos:');
+      console.log(this.imagenes);
+    });
   }
 
   ionViewWillEnter(){
-    this.imagenes = this.imagenesServicio.getImagenes();
-    this.usuarioLogueado = this.usuariosServicio.getUsuarioLogueado();
-    console.log(this.imagenes);
-  }
+    this.bdService.getImagenes().then((imagenes) => {
+      this.imagenes = imagenes;
 
-  cerrarSesion() {
-    this.usuariosServicio.setUsuarioLogueado(null);
-    this.router.navigate(['/login']);
-    console.log(this.usuarioLogueado);
+      console.log('Recargado nuevamente...');
+      console.log(this.imagenes);
+    });
   }
 
 }
+
+
+
+

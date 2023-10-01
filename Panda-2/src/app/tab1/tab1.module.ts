@@ -9,6 +9,7 @@ import {MatCardModule} from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
+import { SQLite } from '@ionic-native/sqlite/ngx';
 
 
 @NgModule({
@@ -21,9 +22,10 @@ import { Tab1PageRoutingModule } from './tab1-routing.module';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    
-    
+
   ],
-  declarations: [Tab1Page]
+
+  declarations: [Tab1Page],
+  providers: [SQLite]
 })
 export class Tab1PageModule {}

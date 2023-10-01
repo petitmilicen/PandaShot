@@ -13,13 +13,13 @@
       <mat-icon>menu</mat-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button (click)="cerrarSesion();" *ngIf="usuarioLogueado;">
-        <mat-icon>exit_to_app</mat-icon>
+      <ion-fab-button  *ngIf="usuarioLogueado;">
+      <mat-icon>exit_to_app</mat-icon>
       </ion-fab-button>
       <ion-fab-button [routerLink]="['/opciones']">
         <mat-icon>settings</mat-icon>
       </ion-fab-button>
-      <ion-fab-button *ngIf="usuarioLogueado;">
+      <ion-fab-button >
         <mat-icon [routerLink]="['/tabs/imagenes/agregar-imagen']">add_circle</mat-icon>
       </ion-fab-button>
       <ion-fab-button *ngIf="usuarioLogueado;" [routerLink]="['/perfil']">
@@ -33,13 +33,13 @@
     <ion-row>
       <ion-col size="6" *ngFor="let imagen of imagenes">
 
-        <mat-card class="example-card">
+        <mat-card class="example-card" >
           <a [routerLink]="['/tabs/imagenes', imagen.id]">
-            <img mat-card-image [src]="imagen.imagenURL" alt="">
+            <img mat-card-image [src]="imagen.imagen" alt="">
           </a>
           <mat-card-header class="custom-card-header">
             <mat-card-title>{{imagen.titulo| titlecase}}</mat-card-title>
-            <mat-card-subtitle>Por {{imagen.autor}}</mat-card-subtitle>
+            <mat-card-subtitle>Por </mat-card-subtitle>
           </mat-card-header>
           <mat-card-actions class="custom-card-actions">
             <button mat-icon-button matTooltip="Warn" color="warn" aria-label="Example icon-button with a heart icon">

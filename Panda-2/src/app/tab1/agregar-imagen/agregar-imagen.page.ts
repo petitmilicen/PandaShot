@@ -22,7 +22,7 @@ export class AgregarImagenPage implements OnInit {
     this.usuarioLogueado = this.usuariosServicio.getUsuarioLogueado();
   }
 
-  img = { titulo: '', link: ''};
+  /*img = { titulo: '', link: ''};
 
   guardarNuevaImagen() {
     this.tituloError = false;
@@ -50,6 +50,6 @@ export class AgregarImagenPage implements OnInit {
   isValidURL(url: string): boolean {
     const urlPattern = /^(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- ;,./?%&=]*)?$/;
     return urlPattern.test(url);
-  }
+  */
 
 }
