@@ -24,36 +24,3 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
-
-/* Cambiar el color de fondo de la página principal */
-ion-content {
-    --ion-background-color: #F8F0E5;
-}
-  
-ion-toolbar {
-    --ion-background-color: #FBC687;
-}
-
-ion-fab-list mat-icon {
-    color: #F8F0E5;
-}
-
-ion-fab-button {
-    --background: #FBC687;
-  }
-
-ion-fab-list {
-    color: #FBC687;
-}
-
-ion-tab-bar{
-    --ion-background-color: #FBC687;
-}
-
-ion-tab-bar mat-icon{
-    color: #F8F0E5;
-}
-
-ion-tab-bar ion-label{
-    color: #F8F0E5;
-}
