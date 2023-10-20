@@ -17,9 +17,14 @@ const routes: Routes = [
           {
             path: ":imagenId",
             loadChildren: () => import('../tab1/imagen-detalle/imagen-detalle.module').then(m => m.ImagenDetallePageModule)
+          },
+          {
+            path: "editar-imagen/:imagenId",
+            loadChildren: () => import('../tab1/editar-imagen/editar-imagen.module').then(m => m.EditarImagenPageModule)
           }
         ]
       },
+
       {
         path: 'buscar',
         loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)

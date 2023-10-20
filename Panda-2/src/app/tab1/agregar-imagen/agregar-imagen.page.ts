@@ -1,55 +1,85 @@
 import { Component, OnInit } from '@angular/core';
 import { ImagenesServicioService } from '../imagenes-servicio.service';
 import { Router } from '@angular/router';
-import { UsuariosServicioService } from 'src/app/register/usuarios-servicio.service';
-import { Usuario } from 'src/app/register/usuario.model';
-
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'
+import { LoadingController, Platform, ToastController } from '@ionic/angular';
+import { ImagenService } from 'src/app/services/imagen.service';
+import { UsuariosService } from 'src/app/services/usuarios.service';
+import { Storage } from '@ionic/storage-angular';
 @Component({
   selector: 'app-agregar-imagen',
   templateUrl: './agregar-imagen.page.html',
   styleUrls: ['./agregar-imagen.page.scss'],
 })
 export class AgregarImagenPage implements OnInit {
-  usuarioLogueado: Usuario | null | undefined;
+  usuarioLogueado: any | null | undefined;
 
   tituloError = false;
   linkError = false;
-  imagenGuardadaToast = false;
 
-  constructor(private imagenesServicio: ImagenesServicioService, private router: Router, private usuariosServicio: UsuariosServicioService) { }
+  titulo!: string;
+  descripcion!: string;
+  imagen!: string;
+  idUsuario!: number;
+  toastImagen = false;
 
-  ngOnInit() {
-    this.usuarioLogueado = this.usuariosServicio.getUsuarioLogueado();
-  }
+  images: any[] = [];
 
-  /*img = { titulo: '', link: ''};
+  constructor(private toastController: ToastController, private router: Router, private usuariosServicio: UsuariosService, private imagenServicio: ImagenService, private platform: Platform, private loadingCtrl: LoadingController, private storage: Storage ) {
+    this.storage.create();
+   }
 
-  guardarNuevaImagen() {
-    this.tituloError = false;
-    this.linkError = false;
+ngOnInit() {
 
-    if (this.img.titulo.length < 3) {
-      this.tituloError = true;
-      return;
-    }
+}
 
-    if (!this.isValidURL(this.img.link)) {
-      this.linkError = true;
-      return;
-    }
-    const autor = this.usuarioLogueado?.usuario + "";
-
-    this.imagenesServicio.addImagen(this.img.titulo, autor, this.img.link);
-    this.imagenGuardadaToast = true;
-    this.router.navigate(['/tabs/imagenes']);  
-    
-    console.log('Imagen guardada correctamente');
+ionViewWillEnter() {
+  this.usuariosServicio.getCurrentUser().then((currentUser) => {
+    if (currentUser) {
+      this.usuarioLogueado = currentUser.nombre;
+      this.idUsuario = currentUser.idUsuario;
+      console.log(`Id usuario actual: ${this.idUsuario} Nombre usuario actual ${this.usuarioLogueado}`);
       
-  }
+    }
+  });
+}
 
-  isValidURL(url: string): boolean {
-    const urlPattern = /^(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- ;,./?%&=]*)?$/;
-    return urlPattern.test(url);
-  */
+
+async subirImagen() {
+  if (this.imagen && this.titulo) {
+    try {
+      await this.imagenServicio.addImagen(this.titulo, this.imagen, this.descripcion, this.idUsuario);
+      this.toastImagen = true;
+      this.router.navigate(['/tabs/imagenes']);
+      const toast = await this.toastController.create({
+        message: 'Imagen subida exitosamente',
+        duration: 5000
+      });
+      toast.present();
+      
+    } catch (error) {
+      console.error('Error al subir la imagen:', error);
+    }
+  } else {
+    console.log('Error al subir la imagen');
+    
+  }
+}
+
+async tomarFoto() {
+  const photo = await Camera.getPhoto({
+    resultType: CameraResultType.DataUrl, 
+    quality: 60,
+    source: CameraSource.Prompt,
+    promptLabelPicture: 'Tomar foto',
+    promptLabelPhoto: 'Elegir de la galeria',
+    promptLabelHeader: 'Imagen'
+  });
+
+  if (photo && photo.dataUrl) {
+    this.imagen = photo.dataUrl; 
+  }
+}
+
 
 }

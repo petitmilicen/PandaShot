@@ -1,47 +1,85 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button text="Volver" defaultHref="/tabs/imagenes"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/imagenes"></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="deleteImagen()">
-        <ion-icon name="trash"></ion-icon>
+
+    <ion-buttons slot="end" *ngIf="idUsuario === imagen?.usuario_id || isAdmin === 1">
+      <ion-button *ngIf="imagen" [routerLink]="['/tabs/imagenes/editar-imagen', imagen.id]">
+        <mat-icon>edit</mat-icon>
       </ion-button>
+
+      <ion-button (click)="deleteImagen()">
+        <mat-icon>delete</mat-icon>
+      </ion-button>
+
     </ion-buttons>
+
+    <ion-buttons slot="end">
+
+      <ion-button>
+        <mat-icon (click)="mostrarDescripcion()" >info</mat-icon>
+      </ion-button>
+
+    </ion-buttons>
+
+    
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
-
-  <mat-card class="example-card">
-
-    <img mat-card-image [src]="imagen?.imagen" alt="">
+  <div class="separador">
+  <mat-card>
+    <img mat-card-image [src]="imagen?.imagen" alt="" >
     <mat-card-header style="padding-left: 6px;">
       <mat-card-title>{{imagen?.titulo}}</mat-card-title>
-      <mat-card-subtitle>Por </mat-card-subtitle>
+      <mat-card-subtitle>Creada por <a [routerLink]="['/perfil/', imagen?.usuario_id]" style="color: black; text-decoration: none;">{{imagen?.nombre_usuario}}</a></mat-card-subtitle>
+      <mat-card-subtitle>{{imagen?.fecha_publicacion | date:'M/d/yy'}}</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-actions>
 
-      <button mat-icon-button matTooltip="Warn" color="warn">
+      <button mat-icon-button matTooltip="Warn" color="warn" (click)="toggleLike()">
         <mat-icon>favorite</mat-icon>
       </button>
+      {{likes}}
 
       <button mat-icon-button color="black">
         <mat-icon>bookmark</mat-icon>
       </button>
-
       <button mat-icon-button color="black">
         <mat-icon>share</mat-icon>
       </button>
-
-      <button mat-icon-button color="black">
+      <button mat-icon-button color="black" (click)="descargarImagen()">
         <mat-icon>save_alt</mat-icon>
       </button>
-
     </mat-card-actions>
+  </mat-card> 
+  </div>
 
-  </mat-card>
+  <ion-item>
+    <ion-input placeholder="Añadir comentario" [(ngModel)]="texto" name="texto"></ion-input>
+    <ion-button [disabled]="!texto || texto.trim() === ''" (click)="agregarComentario()">Comentar</ion-button>
+  </ion-item>
+  
+
+  <ion-list>
+    <ion-item *ngFor="let comentario of comentarios">
+      <ion-avatar *ngIf="comentario.foto_usuario === null; else fotoPerfilTemplate" class="custom-avatar">
+        <img src="https://i.pinimg.com/564x/c7/ac/68/c7ac68c45a1927de8f4bcdbf5517b583.jpg">
+      </ion-avatar>
+      <ng-template #fotoPerfilTemplate>
+        <ion-avatar slot="start">
+          <img [src]="comentario.foto_usuario">
+        </ion-avatar>
+      </ng-template>
+      <ion-label>
+        <h2>{{comentario.nombre_usuario }}</h2>
+        <p>{{ comentario.texto }}</p>
+        <p class="tiempo-comentario">{{comentario.fecha_creacion | date:"MMM d, y"}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  
 
 </ion-content>

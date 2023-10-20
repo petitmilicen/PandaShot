@@ -1,9 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/imagenes"></ion-back-button>
+      <ion-back-button ></ion-back-button>
     </ion-buttons>
-    <ion-title>Perfil</ion-title>
+    <ion-title>{{usuario?.nombre}}</ion-title>
   </ion-toolbar>
 </ion-header>
  
@@ -14,71 +14,42 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-card class="profile-card" *ngIf="usuarioLogueado;">
-    <div class="profile-picture">
+  <ion-card class="profile-card" style="background-color: white;">
+    <div class="profile-picture-container">
       <ion-img class="circular-image" src="https://i.pinimg.com/564x/c7/ac/68/c7ac68c45a1927de8f4bcdbf5517b583.jpg" alt="Foto de perfil"></ion-img>
     </div>
 
-    <div class="profile-details">
-      <ion-label class="profile-name">{{usuarioLogueado.usuario}}</ion-label>
-    </div>
-    <div class="profile-details">
-      <ion-label class="profile-description">Me gustan los tacos :D.</ion-label>
-    </div>
-    <div class="profile-details">
-      <ion-label class="profile-date">Se unió el 25 de Agosto, 2023</ion-label>
-    </div>
-    <ion-row class="profile-button-row">
-      <ion-col class="ion-text-center">
-        <ion-button expand="full" color="primary" shape="round" [routerLink]=""> Modificar perfil</ion-button>
-      </ion-col>
-    </ion-row>
+    <mat-card-content class="profile-details">
+      <p>{{usuario?.biografia}}</p>
+
+      <p>Se unió el {{usuario?.fecha_unio | date:'M/d/yy'}}</p>
+      </mat-card-content>
+
+    <mat-card-content class="profile-details" *ngIf="usuarioIdPerfil === (idUsuario | number)">
+      <ion-button color="primary">Modificar Foto</ion-button>
+      <ion-button color="primary">Modificar Descripción</ion-button>
+    </mat-card-content>
+
   </ion-card>
 
+  <ion-list>
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <mat-card>
+              <a [routerLink]="['/tabs/imagenes']">
+                <img mat-card-image alt="" src="https://i.pinimg.com/564x/c7/ac/68/c7ac68c45a1927de8f4bcdbf5517b583.jpg">
+              </a>
+              <mat-card-header class="custom-card-header">
+                <mat-card-title>Test</mat-card-title>
+              </mat-card-header>
+            </mat-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+
 </ion-content>
-
-<style>
-  .profile-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-  }
-
-  .profile-picture {
-    border-radius: 50%;
-    overflow: hidden;
-    width: 150px;
-    height: 150px;
-    margin-bottom: 10px;
-  }
-
-  .circular-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .profile-name {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-
-  .profile-description {
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-
-  .profile-date {
-    font-size: 14px;
-    color: gray;
-    margin-bottom: 20px;
-  }
-
-  .profile-button-row {
-    margin-top: 20px;
-  }
-</style>

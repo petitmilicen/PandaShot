@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsuariosServicioService } from './usuarios-servicio.service';
+import { UsuariosService } from '../services/usuarios.service';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-register',
@@ -9,97 +10,152 @@ import { UsuariosServicioService } from './usuarios-servicio.service';
 })
 export class RegisterPage implements OnInit {
 
-  constructor(private router: Router, private usuariosServicio: UsuariosServicioService) { }
+  constructor(private router: Router, private usuariosServicio: UsuariosService, private storage: Storage) { }
 
-  public usuarios: any[] = [{
-  }];
+  usuarios: any[] = [];
+  fechaNacimientoTexto!: string; 
 
-  ngOnInit() {
-    this.usuarios = this.usuariosServicio.getUsuarios();
-    console.log(this.usuarios);
+  async ngOnInit() {
+    this.usuariosServicio.getUsuarios().then((usuarios) => {
+      this.usuarios = usuarios;
+  
+      console.log('Datos de usuarios en la base de datos:');
+      console.log(this.usuarios);
+  
+    })
+
   }
 
-  showUsernameError = false;
-  showUsernameCaracteres = false;
-  showEmailError = false;
-  showPasswordError = false;
-  showConfirmPasswordError = false;
-  showEmailDuplicado = false;
+  nombreValido = true;
+  correoExiste = true;
+  contrasenaValida = true;
+  correoValido = true;
+  nombreUsuarioValido = true;
+  contrasenasCoinciden = true;
+  edadValida = true;
 
-  user = { username: '', email: '', contrasena: '' };
-  confirmContrasena = '';
+  nombre: string = '';
+  correo: string = '';
+  contrasena: string = '';
+  confirmarContrasena: string = '';
+  edad!: number;
 
-  registerUser() {
 
-    if (this.user.contrasena !== this.confirmContrasena) {
-      this.showConfirmPasswordError = true;
-      console.log("Las contraseñas no coinciden");
-      return;
-    } else {
-      this.showConfirmPasswordError = false;
+  async registrarUsuario() {
+
+    const nombre = this.nombre;
+    const contrasena = this.contrasena;
+    const confirmarContrasena = this.confirmarContrasena;
+    const correo = this.correo;
+    const edad = this.edad;
+    const edadMinima = 16;
+
+  
+    if (nombre.length < 3) {
+      this.nombreValido = false;
+      return
     }
 
-    if (this.usuariosServicio.getUsuarios().some(u => u.usuario === this.user.username)) {
-      this.showUsernameError = true;
-      console.log("El nombre de usuario ya está en uso");
+    const nombreExiste = await this.usuariosServicio.nombreExiste(nombre);
+    if (nombreExiste) {
+      this.nombreUsuarioValido = false;
       return;
-    } else {
-      this.showUsernameError = false;
+    }
+  
+    const correoExiste = await this.usuariosServicio.correoExiste(correo);
+    if (correoExiste) {
+      this.correoExiste = false; 
+      return;
     }
 
-    if (this.user.username.length < 3) {
-      this.showUsernameCaracteres = true;
+    const correoValido = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(correo);
+    if (!correoValido) {
+      this.correoValido = false;
       return;
-    } else {
-      this.showUsernameCaracteres = false; 
     }
 
-    if (!this.usuariosServicio.validateEmail(this.user.email)) {
-      this.showEmailError = true;
-      console.log("Correo electrónico inválido");
-      return;
-    } else {
-      this.showEmailError = false;
+    if (!/\d/.test(contrasena) || contrasena.length < 6) {
+      this.contrasenaValida = false
+      return
     }
 
-    if (this.usuariosServicio.getUsuarios().some(u => u.email === this.user.email)) {
-      this.showEmailDuplicado = true;
-      console.log("El correo electrónico ya está registrado");
+    if (contrasena !== confirmarContrasena) {
+      this.contrasenasCoinciden = false;
       return;
-    } else {
-      this.showEmailDuplicado = false;
     }
-
-    if (this.user.contrasena.length < 8 || !/\d/.test(this.user.contrasena)) {
-      this.showPasswordError = true;
-      console.log("La contraseña debe tener al menos 8 caracteres y contener al menos un número.");
-      return;
-    } else {
-      this.showPasswordError = false;
+  
+    if (edad < edadMinima) {
+      this.edadValida = false;
     }
+  
+    try {
+      await this.usuariosServicio.registerUser(nombre, contrasena, correo, edad);
+      console.log('Usuario registrado: '+ nombre, contrasena, correo, edad);
+      this.router.navigate(['/login']);
+      
+    } catch (error) {
+      throw error;
+    }
+  }
 
-    this.usuariosServicio.addUsuario({
-      usuario: this.user.username,
-      email: this.user.email,
-      contrasena: this.user.contrasena, 
-    });
+  validarNombre() {
+    const nombre = this.nombre;
+    if (nombre.length >= 3) {
+      this.nombreValido = true;
+
+      this.usuariosServicio.nombreExiste(nombre).then((nombreExiste) => {
+        this.nombreUsuarioValido = !nombreExiste;
+      });
+    } else {
+      this.nombreValido = false;
+      this.nombreUsuarioValido = false;
+    }
+  }
     
-    console.log(this.usuariosServicio.getUsuarios());
-    this.clearForm();
-    this.router.navigate(['/login']);
-    
+
+  validarCorreo() {
+    const correo = this.correo;
+    const correoValido = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(
+      correo
+    );
+    this.correoValido = correoValido;
+  
+    if (correoValido) {
+      this.usuariosServicio.correoExiste(correo).then((correoExiste) => {
+        this.correoExiste = !correoExiste;
+      });
+    }
+  }
+  
+  validarContrasena() {
+    const contrasena = this.contrasena;
+    if (!/\d/.test(contrasena) || contrasena.length < 6) {
+      this.contrasenaValida = false;
+    } else {
+      this.contrasenaValida = true;
+    }
+  }
+  
+  validarConfirmarContrasena() {
+    const contrasena = this.contrasena;
+    const confirmarContrasena = this.confirmarContrasena;
+    if (contrasena !== confirmarContrasena) {
+      this.contrasenasCoinciden = false;
+    } else {
+      this.contrasenasCoinciden = true;
+    }
+  }
+  
+  validarEdad() {
+    const edadMinima = 16;
+    const edad = this.edad;
+
+    if (edad < edadMinima) {
+      this.edadValida = false;
+    } else {
+      this.edadValida = true;
+    }
   }
 
-  clearForm() {
-    this.user.username = '';
-    this.user.email = '';
-    this.user.contrasena = '';
-    this.confirmContrasena = '';
-
-    this.showUsernameError = false;
-    this.showEmailError = false;
-    this.showPasswordError = false;
-    this.showConfirmPasswordError = false;
-  }
-
+  
 }

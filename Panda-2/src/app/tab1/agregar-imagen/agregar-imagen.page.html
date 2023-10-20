@@ -5,21 +5,26 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <form >
-    <ion-item class="ion-margin">
-      <ion-label position="floating">Titulo</ion-label>
-      <ion-input placeholder="Ingresa el titulo de la imagen"  name="titulo" required></ion-input>
-    </ion-item>
-    <div class="error-message" *ngIf="tituloError" style="padding-left: 20px;">El titulo debe tener al menos 3 caracteres</div>
 
-    <ion-item class="ion-margin">
-      <ion-label position="floating">Link</ion-label>
-      <ion-input placeholder="Ingresa el link de la imagen"  name="link" required ></ion-input>
+  <form (ngSubmit)="subirImagen()" #formulario="ngForm">
+    <ion-item>
+      <ion-label position="floating">Título</ion-label>
+      <ion-input [(ngModel)]="titulo" name="titulo" required></ion-input>
     </ion-item>
-    <div class="error-message" *ngIf="linkError" style="padding-left: 20px;">El texto tiene que ser un link</div>
+  
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-input [(ngModel)]="descripcion" name="descripcion"></ion-input>
+    </ion-item>
     
-    <ion-button id="open-toast" expand="block" type="submit"><mat-icon>save</mat-icon> </ion-button>
-      <ion-toast trigger="open-toast" message="Imagen ha sido guardada correctamente" [duration]="5000" *ngIf="imagenGuardadaToast"></ion-toast>
+    <ion-button type="button" expand="full" (click)="tomarFoto()">Tomar Foto</ion-button>
+  
+    <img *ngIf="imagen" [src]="imagen" alt="Imagen">
+    
+    <ion-button type="submit" expand="full" [disabled]="!imagen" >Subir Imagen</ion-button>
+    <ion-toast [isOpen]="toastImagen" message="Imagen subida exitosamente" [duration]="5000"></ion-toast>
   </form>
+  
+
 </ion-content>
 

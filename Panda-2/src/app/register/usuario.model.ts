@@ -1,5 +1,9 @@
 export interface Usuario {
-    usuario: string,
-    email: string,
-    contrasena: string
+    nombre: string,
+    correo: string,
+    contrasena: string,
+    confirmarContrasena: string,
+    fechaNacimiento: Date,
+    fotoPerfil: string,
+    biografia: string
 }

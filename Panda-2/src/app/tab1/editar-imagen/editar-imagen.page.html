@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/imagenes/img.id"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editar imagen</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <form (ngSubmit)="editarImagen()">
+    <ion-item class="ion-margin">
+      <ion-label position="floating">Titulo</ion-label>
+      <ion-input placeholder="Ingresa el titulo de la imagen" [(ngModel)]="img.titulo" name="titulo" required></ion-input>
+    </ion-item>
+
+    <ion-item class="ion-margin">
+      <ion-label position="floating">Descripcion</ion-label>
+      <ion-input placeholder="Ingresa la descripcion de la imagen" [(ngModel)]="img.descripcion" name="descripcion" required></ion-input>
+    </ion-item>
+
+        
+    <ion-button type="button" expand="full" (click)="tomarFoto()">Tomar Foto</ion-button>
+  
+    <img *ngIf="img.imagen" [src]="img.imagen" alt="Imagen">
+    
+    <ion-button id="open-toast" expand="block" type="submit"><mat-icon>save</mat-icon></ion-button>
+
+    <ion-toast trigger="open-toast" 
+    message="Imagen ha sido editada correctamente" 
+    [duration]="5000" 
+    *ngIf="imagenEditadaToast">
+    </ion-toast>
+  </form>
+
+</ion-content>
+

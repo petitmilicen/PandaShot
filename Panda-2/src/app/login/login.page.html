@@ -8,7 +8,7 @@
   <ion-grid>
     <ion-row class="ion-justify-content-center ion-align-items-center">
       <ion-col size-md="6" size-lg="4">
-        <form (submit)="loginUser()">
+        <form (ngSubmit)="iniciarSesion()">
           <ion-item class="ion-margin">
             <ion-label position="floating">Correo electrónico</ion-label>
             <ion-input placeholder="Ingresa tu correo electrónico" [(ngModel)]="user.email" name="email"></ion-input>
@@ -18,9 +18,9 @@
             <ion-input type="password" placeholder="Ingresa tu contraseña" [(ngModel)]="user.contrasena" name="contrasena"></ion-input>
           </ion-item>
           <div class="error-message" *ngIf="loginError">Usuario no existe o las credenciales son incorrectas</div>
-          <ion-button shape="round" expand="full" class="ion-margin" type="submit">Iniciar sesión</ion-button>
+          <ion-button expand="full" class="ion-margin" type="submit">Iniciar sesión</ion-button>
         </form>
-        <ion-button shape="round" expand="full" class="ion-margin" [routerLink]="['/register']">Crear cuenta</ion-button>
+        <ion-button expand="full" class="ion-margin" [routerLink]="['/register']">¿No tienes cuenta? Registrate</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

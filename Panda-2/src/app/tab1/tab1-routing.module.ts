@@ -13,7 +13,12 @@ const routes: Routes = [
   },
   {
     path: 'agregar-imagen',
-    loadChildren: () => import('./agregar-imagen/agregar-imagen.module').then( m => m.AgregarImagenPageModule)
+    loadChildren: () => import('./agregar-imagen/agregar-imagen.module').then( m => m.AgregarImagenPageModule),
+
+  },
+  {
+    path: 'editar-imagen',
+    loadChildren: () => import('./editar-imagen/editar-imagen.module').then( m => m.EditarImagenPageModule)
   }
 ];
 

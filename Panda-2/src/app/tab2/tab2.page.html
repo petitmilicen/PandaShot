@@ -8,8 +8,24 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-searchbar show-cancel-button="focus" placeholder="Buscar" cancel-button-text="Custom Cancel">
-  </ion-searchbar>
+  <ion-searchbar [(ngModel)]="terminoBusqueda" (input)="buscarImagenes()" placeholder="Buscar"></ion-searchbar>
+
+  <ion-list *ngIf="imagenesEncontradas.length > 0 && terminoBusqueda !== '' "  >
+    <ion-item *ngFor="let imagen of imagenesEncontradas">
+      <a [routerLink]="['/tabs/imagenes', imagen.id]" style="text-decoration:none; color:black;">
+        <ion-label>{{imagen.titulo}}</ion-label>
+      </a>
+    </ion-item>
+  </ion-list>
+  
+  <ion-list *ngIf="mostrarMensaje && terminoBusqueda !== '' ">
+    <ion-item>
+      <ion-label>
+        Imágenes no encontradas para "{{ (terminoBusqueda.length>6)? (terminoBusqueda | slice:0:10)+'...':(terminoBusqueda)}}" 😔
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  
 
   <ion-chip>Dibujos</ion-chip>
   <ion-chip color="secondary">Imagenes divertidas</ion-chip>
@@ -17,3 +33,4 @@
   <ion-chip color="success">Comics</ion-chip>
   <ion-chip color="warning">Tatuajes Minimalistas</ion-chip>
   <ion-chip color="danger">Videojuegos</ion-chip>
+</ion-content>

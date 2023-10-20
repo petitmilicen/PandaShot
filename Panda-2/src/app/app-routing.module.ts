@@ -15,7 +15,7 @@ const routes: Routes = [
     loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule)
   },
   {
-    path: 'perfil',
+    path: 'perfil/:usuarioId',
     loadChildren: () => import('./perfil/perfil.module').then(m => m.PerfilPageModule)
   },
   {
@@ -50,10 +50,18 @@ const routes: Routes = [
     path: 'bienvenida',
     loadChildren: () => import('./bienvenida/bienvenida.module').then(m => m.BienvenidaPageModule)
   },
-
+  {
+    path: 'pantalla-carga',
+    loadChildren: () => import('./pantalla-carga/pantalla-carga.module').then( m => m.PantallaCargaPageModule)
+  },
+  {
+    path: 'administracion',
+    loadChildren: () => import('./administracion/administracion.module').then( m => m.AdministracionPageModule)
+  }
 
 
 ];
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
