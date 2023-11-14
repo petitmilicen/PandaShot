@@ -25,17 +25,20 @@ export class ImagenService {
     imagen BLOB,
     fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     usuario_id INTEGER,
+    disponible BOOLEAN DEFAULT 1,
     FOREIGN KEY (usuario_id) REFERENCES usuarios (id)
   )`;
 
   dropTableQuery = `DROP TABLE IF EXISTS imagen`;
+
+  alter= `ALTER TABLE imagen ADD COLUMN disponible BOOLEAN DEFAULT 1;`
 
 
   async crearTablas() {
     try {
       
     await this.database.executeSql(
-      this.tablaImagen,
+      this.alter,
       []
     )
     

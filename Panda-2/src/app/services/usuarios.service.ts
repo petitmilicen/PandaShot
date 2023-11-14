@@ -26,7 +26,7 @@ export class UsuariosService {
     nombre VARCHAR(255),
     correo VARCHAR(255),
     contrasena VARCHAR(255),
-    edad INTEGER,
+    fecha_nacimiento DATETIME,
     foto_perfil BLOB,
     biografia TEXT,
     is_admin BOOLEAN,
@@ -191,5 +191,48 @@ export class UsuariosService {
       });
     });
   }
+
+  async editUsuario(id: any, nuevoNombre: string, nuevabiografia: string): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
+      this.isready.subscribe(async (ready) => {
+        if (ready) {
+          try {
+            const query = `
+              UPDATE usuarios
+              SET nombre = ?,
+              WHERE id = ?
+            `;
+  
+            await this.database.executeSql(query, [id, nuevoNombre, nuevabiografia]);
+            resolve();
+          } catch (error) {
+            reject(error);
+          }
+        }
+      });
+    });
+  }
+
+  async editUsuarioImagen(id: any, nuevaImagen: string): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
+      this.isready.subscribe(async (ready) => {
+        if (ready) {
+          try {
+            const query = `
+              UPDATE usuarios
+              SET foto_perfil = ?,
+              WHERE id = ?
+            `;
+  
+            await this.database.executeSql(query, [id, nuevaImagen]);
+            resolve();
+          } catch (error) {
+            reject(error);
+          }
+        }
+      });
+    });
+  }
+  
   
 }
