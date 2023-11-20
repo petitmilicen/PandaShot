@@ -33,4 +33,20 @@
   <ion-chip color="success">Comics</ion-chip>
   <ion-chip color="warning">Tatuajes Minimalistas</ion-chip>
   <ion-chip color="danger">Videojuegos</ion-chip>
+
+
+  <div *ngIf="featuredImage">
+  <mat-card class="custom-card" >
+    <mat-card-title>Imagenes destacadas</mat-card-title>
+    <a>
+      <img mat-card-image [src]="featuredImage.urls.regular" alt="">
+    </a>
+    <mat-card-header class="custom-card-header">
+      
+    </mat-card-header>
+    <mat-card-actions class="custom-card-actions">
+    </mat-card-actions>
+  </mat-card>
+  </div>
+
 </ion-content>

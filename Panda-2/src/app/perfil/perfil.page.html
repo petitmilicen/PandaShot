@@ -1,9 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button ></ion-back-button>
+      <ion-back-button defaultHref="tabs/imagenes"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{usuario?.nombre}}</ion-title>
+    <ion-title>Perfil de {{usuario?.nombre}}</ion-title>
   </ion-toolbar>
 </ion-header>
  
@@ -27,29 +27,29 @@
 
     <mat-card-content class="profile-details" *ngIf="usuarioIdPerfil === (idUsuario | number)">
       <ion-button color="primary">Modificar Foto</ion-button>
-      <ion-button color="primary">Modificar Descripción</ion-button>
+      <ion-button color="primary" [routerLink]="['perfil/editar-perfil']">Modificar Perfil</ion-button>
     </mat-card-content>
 
   </ion-card>
 
-  <ion-list>
-    <ion-item>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="6">
-            <mat-card>
-              <a [routerLink]="['/tabs/imagenes']">
-                <img mat-card-image alt="" src="https://i.pinimg.com/564x/c7/ac/68/c7ac68c45a1927de8f4bcdbf5517b583.jpg">
-              </a>
-              <mat-card-header class="custom-card-header">
-                <mat-card-title>Test</mat-card-title>
-              </mat-card-header>
-            </mat-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-  </ion-list>
+
+  <ion-grid class="custom-grid">
+    <ion-row>
+      <ion-col size="6" *ngFor="let imagen of imagenes" >
+
+        <mat-card>
+          <a [routerLink]="['/tabs/imagenes', imagen.id]">
+            <img mat-card-image alt="" [src]="imagen.imagen">
+          </a>
+          <mat-card-header class="custom-card-header">
+            <mat-card-title>{{ imagen.titulo }}</mat-card-title>
+            <mat-card-subtitle>{{ imagen.fecha_publicacion | date:'M/d/yy' }}</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+        
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 
 </ion-content>

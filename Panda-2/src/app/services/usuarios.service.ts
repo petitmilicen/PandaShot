@@ -30,12 +30,17 @@ export class UsuariosService {
     foto_perfil BLOB,
     biografia TEXT,
     is_admin BOOLEAN,
+    edad INTEGWER,
     fecha_unio DATETIME DEFAULT CURRENT_TIMESTAMP
 
   );`
 
-  insertDiego = `INSERT INTO usuarios (id, nombre, correo, contrasena, edad, foto_perfil, biografia, is_admin)
-      VALUES (1, 'Diego', 'die.venegas@duocuc.cl', 'asd123', 21, NULL, 'Hola',1);`;
+  insertDiego = `
+  INSERT INTO usuarios (id, nombre, correo, contrasena, edad, foto_perfil, biografia, is_admin)
+  SELECT 1, 'Diego', 'die.venegas@duocuc.cl', 'asd123', 21, NULL, 'Hola', 1
+  WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE id = 1);
+  `;
+
 
   dropTableQuery = `DROP TABLE IF EXISTS usuarios`;
 
@@ -62,7 +67,7 @@ export class UsuariosService {
       
       this.isready.next(true);
       } catch (error) {
-        console.error('Error al crear la tabla:', error);
+        console.error('Error al insertar datos :', error);
       }
 
   }

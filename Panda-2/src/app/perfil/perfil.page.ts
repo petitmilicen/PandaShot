@@ -3,6 +3,7 @@ import { Usuario } from '../register/usuario.model';
 import { UsuariosService } from '../services/usuarios.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
+import { ImagenService } from '../services/imagen.service';
 
 @Component({
   selector: 'app-perfil',
@@ -17,16 +18,20 @@ export class PerfilPage implements OnInit {
   currentUser: any;
   idUsuario!: any;
   isAdmin!: any;
+
+  imagenes!: any;
   
   usuarioIdPerfil!: any;
 
-  constructor(private usuarioService: UsuariosService, private router: Router, private activatedRoute: ActivatedRoute, private storage: Storage) { }
+  constructor(private usuarioService: UsuariosService, private router: Router, private activatedRoute: ActivatedRoute, private storage: Storage, private imagenServicio: ImagenService) { }
 
   async ngOnInit() {
     this.storage.create();
     await this.cargarDatos();
     await this.cargarUsuarioData();
     console.log('id del perfil:', this.usuarioIdPerfil, 'id del usuario actual: ', this.idUsuario);
+
+    this.obtenerImagenesPorUsuario(this.idUsuario);
   }
 
   async cargarUsuario(id: number) {
@@ -56,6 +61,17 @@ export class PerfilPage implements OnInit {
     } catch (error) {
       console.error('Error al cargar los datos del usuario:', error);
     }
+  }
+
+  obtenerImagenesPorUsuario(usuarioId: number) {
+    this.imagenServicio.getImagenesByUsuarioId(usuarioId)
+      .then((imagenes) => {
+        this.imagenes = imagenes;
+        console.log('Imágenes del usuario:', imagenes);
+      })
+      .catch((error) => {
+        console.error('Error al obtener imágenes del usuario:', error);
+      });
   }
   
 

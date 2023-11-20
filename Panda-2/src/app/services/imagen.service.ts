@@ -38,7 +38,7 @@ export class ImagenService {
     try {
       
     await this.database.executeSql(
-      this.alter,
+      this.tablaImagen,
       []
     )
     
@@ -177,5 +177,36 @@ export class ImagenService {
       });
     });
   }
+
+  async getImagenesByUsuarioId(usuarioId: number): Promise<any[]> {
+    return new Promise<any[]>(async (resolve, reject) => {
+      this.isready.subscribe(async (ready) => {
+        if (ready) {
+          try {
+            const query = `
+              SELECT imagen.*
+              FROM imagen
+              INNER JOIN usuarios ON imagen.usuario_id = usuarios.id
+              WHERE imagen.usuario_id = ?
+              ORDER BY imagen.fecha_publicacion DESC
+            `;
+            const parametros = [usuarioId];
+  
+            const imagenes = await this.database.executeSql(query, parametros);
+            const items: any[] = [];
+  
+            for (let i = 0; i < imagenes.rows.length; i++) {
+              items.push(imagenes.rows.item(i));
+            }
+  
+            resolve(items);
+          } catch (error) {
+            reject(error);
+          }
+        }
+      });
+    });
+  }
+  
   
 }

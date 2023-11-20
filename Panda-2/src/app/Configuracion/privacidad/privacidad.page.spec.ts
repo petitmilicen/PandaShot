@@ -5,11 +5,11 @@ describe('PrivacidadPage', () => {
   let component: PrivacidadPage;
   let fixture: ComponentFixture<PrivacidadPage>;
 
-  beforeEach(async(() => {
+  beforeEach(async() => {
     fixture = TestBed.createComponent(PrivacidadPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

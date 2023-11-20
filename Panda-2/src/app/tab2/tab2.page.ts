@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ImagenService } from '../services/imagen.service';
+import { UnplashService } from '../services/unplash.service';
 
 @Component({
   selector: 'app-tab2',
@@ -13,7 +14,29 @@ export class Tab2Page {
   mostrarMensaje = false;
 
 
-  constructor(private imagenesServicio: ImagenService) {}
+  constructor(private imagenesServicio: ImagenService, private unsplashService: UnplashService) {}
+
+  featuredImage: any;
+
+  ngOnInit() {
+    this.loadRandomImage();
+    setInterval(() => {
+      this.loadRandomImage();
+    }, 72 * 1000); 
+  } 
+  
+
+async loadRandomImage() {
+  try {
+    const response: any = await this.unsplashService.getRandomPhoto().toPromise();
+    this.featuredImage = response;
+    console.log(response);
+    
+  } catch (error) {
+    console.error('Error al cargar la imagen:', error);
+  }
+}
+
 
   async buscarImagenes() {
     this.mostrarMensaje = false;

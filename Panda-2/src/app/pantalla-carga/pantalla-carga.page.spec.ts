@@ -5,11 +5,11 @@ describe('PantallaCargaPage', () => {
   let component: PantallaCargaPage;
   let fixture: ComponentFixture<PantallaCargaPage>;
 
-  beforeEach(async(() => {
+  beforeEach(async() => {
     fixture = TestBed.createComponent(PantallaCargaPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

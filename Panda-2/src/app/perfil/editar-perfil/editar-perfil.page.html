@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>editar-perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">editar-perfil</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+  <form class="edit-profile-form">
+    <ion-item>
+      <ion-label position="stacked">Nuevo Nombre de Usuario</ion-label>
+      <ion-input type="text" [(ngModel)]="nuevoNombreUsuario" name="nuevoNombreUsuario"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Nueva Biografía</ion-label>
+      <ion-textarea [(ngModel)]="nuevaBiografia" name="nuevaBiografia"></ion-textarea>
+    </ion-item>
+
+    <div class="button-container">
+      <ion-button expand="full" color="primary">Guardar Cambios</ion-button>
+      <ion-button expand="full" color="light" >Cancelar</ion-button>
+    </div>
+  </form>
+</ion-content>
+
