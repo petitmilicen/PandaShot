@@ -8,15 +8,14 @@ import { Router } from '@angular/router';
 })
 export class PantallaCargaPage implements OnInit {
 
-  constructor(private router: Router) {
+  constructor(private router: Router) {}
+
+  ngOnInit() {}
+
+  ionViewDidEnter() {
     setTimeout(() => {
       this.router.navigate(['tabs/imagenes']);
-    }, 2000);
-
-   }
-
-  ngOnInit() {
-
+    }, 3000);
   }
 
 }

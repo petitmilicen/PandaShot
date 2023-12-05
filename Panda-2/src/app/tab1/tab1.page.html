@@ -1,5 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/tabs/notificaciones']">
+        <mat-icon>notifications</mat-icon>
+        <ion-badge class="custom-badge" color="danger" *ngIf="cantidadNotificacionesNoVistas > 0">{{ cantidadNotificacionesNoVistas }}</ion-badge>
+        
+      </ion-button>
+
+    </ion-buttons>
+
     <ion-title>
       Bienvenido {{nombreUsuario}}
     </ion-title>
@@ -30,7 +40,7 @@
 
   <ion-grid class="custom-grid">
     <ion-row>
-      <ion-col size="6" *ngFor="let imagen of imagenes" >
+      <ion-col size="6" *ngFor="let imagen of imagenes">
 
         <mat-card class="custom-card" >
           <a [routerLink]="['/tabs/imagenes', imagen.id]">

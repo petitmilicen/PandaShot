@@ -7,8 +7,9 @@ const routes: Routes = [
   {
     path: '',
     component: PerfilPage,
-  },  {
-    path: 'editar-perfil',
+  },
+  {
+    path: 'editar-perfil/:usuarioId',
     loadChildren: () => import('./editar-perfil/editar-perfil.module').then( m => m.EditarPerfilPageModule)
   }
 

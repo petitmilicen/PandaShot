@@ -1,27 +1,29 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
 
-    <ion-buttons slot="end" *ngIf="idUsuario === imagen?.usuario_id || isAdmin === 1">
-      <ion-button *ngIf="imagen" [routerLink]="['/tabs/imagenes/editar-imagen', imagen.id]">
+    <ion-buttons slot="start"><ion-back-button defaultHref="tabs/imagenes"></ion-back-button></ion-buttons>
+    
+    <ion-buttons slot="end" *ngIf="(idUsuario === imagen?.usuario_id && isAdmin !== 1) || isAdmin === 1">
+      <ion-button *ngIf="imagen && (isAdmin !== 1 || idUsuario === imagen?.usuario_id)" [routerLink]="['/tabs/imagenes/editar-imagen', imagen.id]">
         <mat-icon>edit</mat-icon>
       </ion-button>
-
-      <ion-button (click)="deleteImagen()">
+    
+      <ion-button *ngIf="(isAdmin !== 1 || idUsuario === imagen?.usuario_id)" (click)="deleteImagen()">
         <mat-icon>delete</mat-icon>
       </ion-button>
-
-    </ion-buttons>
-
-    <ion-buttons slot="end">
-
-      <ion-button>
-        <mat-icon (click)="mostrarDescripcion()" >info</mat-icon>
+    
+      <ion-button *ngIf="isAdmin === 1" (click)="opcionesAdmin()"> 
+        
+        <mat-icon>build</mat-icon>
       </ion-button>
-
     </ion-buttons>
+    
+    <ion-buttons slot="end">
+      <ion-button>
+        <mat-icon (click)="mostrarDescripcion()">info</mat-icon>
+      </ion-button>
+    </ion-buttons>
+    
 
     
   </ion-toolbar>

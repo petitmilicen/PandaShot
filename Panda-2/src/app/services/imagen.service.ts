@@ -31,7 +31,8 @@ export class ImagenService {
 
   dropTableQuery = `DROP TABLE IF EXISTS imagen`;
 
-  alter= `ALTER TABLE imagen ADD COLUMN disponible BOOLEAN DEFAULT 1;`
+  alter= `UPDATE imagen
+  SET disponible = 1`
 
 
   async crearTablas() {
@@ -72,11 +73,12 @@ export class ImagenService {
         if (ready) {
           try {
             const queryJoin = `
-            SELECT imagen.*, usuarios.nombre AS nombre_usuario,
-            (SELECT COUNT(*) FROM likes WHERE likes.imagen_id = imagen.id) AS cantidad_likes
-            FROM imagen
-            INNER JOIN usuarios ON imagen.usuario_id = usuarios.id
-            ORDER BY imagen.fecha_publicacion DESC
+              SELECT imagen.*, usuarios.nombre AS nombre_usuario,
+              (SELECT COUNT(*) FROM likes WHERE likes.imagen_id = imagen.id) AS cantidad_likes
+              FROM imagen
+              INNER JOIN usuarios ON imagen.usuario_id = usuarios.id
+              WHERE imagen.disponible = 1
+              ORDER BY imagen.fecha_publicacion DESC
             `;
 
             const imagenes = await this.database.executeSql(queryJoin, []);
@@ -86,7 +88,7 @@ export class ImagenService {
               items.push(imagenes.rows.item(i));
             }
 
-            resolve(items); 
+            resolve(items);
           } catch (error) {
             reject(error);
           }
@@ -94,6 +96,7 @@ export class ImagenService {
       });
     });
   }
+
 
   async getImagen(id: number): Promise<any | null> {
     
@@ -207,6 +210,24 @@ export class ImagenService {
       });
     });
   }
+
+  async banearImagen(id: number): Promise<string> {
+    return new Promise<string>(async (resolve, reject) => {
+      try {
+        await this.database.executeSql(
+          `UPDATE imagen SET disponible = 0 WHERE id = ?`,
+          [id]
+        );
+        
+        console.log(`Imagen con ID ${id} ha sido deshabilitada (baneada).`);
+        resolve("Imagen deshabilitada con éxito");
+      } catch (error) {
+        console.error('Error al deshabilitar la imagen:', error);
+        reject(error);
+      }
+    });
+  }
+  
   
   
 }

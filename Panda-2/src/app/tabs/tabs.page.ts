@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { NotificacionesService } from '../services/notificaciones.service';
+import { UsuariosService } from '../services/usuarios.service';
+import { Storage } from '@ionic/storage-angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tabs',
@@ -7,6 +11,6 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
-  constructor() {}
+  constructor() {} 
 
 }

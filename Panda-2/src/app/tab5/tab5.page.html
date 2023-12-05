@@ -5,18 +5,25 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <ion-list>
-    <ion-item *ngFor="let notification of notifications">
+
+    <ion-item *ngFor="let notificacion of notificaciones">
+
       <ion-avatar slot="start">
-        <img [src]="notification.userAvatarUrl" />
+        <img [src]="notificacion.foto_perfil_interactuante" />
       </ion-avatar>
       <ion-label>
-        <h2>{{ notification.title }}</h2>
-        <p>{{ notification.message }}</p>
+        <p>{{ notificacion.contenido }}</p>
         <ion-text class="ion-text-end">
-          <p>{{ notification.fecha }}</p>
+          <a [routerLink]="['/tabs/imagenes', notificacion.imagen_id]">
+          <ion-img [src]="notificacion.imagen_imagen" class="imagen-tamano"></ion-img>
+          </a>
+          <p>{{ notificacion.fecha_creacion | date:'M/d/yy' }}</p>
         </ion-text>
       </ion-label>
+
     </ion-item>
   </ion-list>
+
 </ion-content>

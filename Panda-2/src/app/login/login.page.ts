@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { UsuariosService } from '../services/usuarios.service';
 import { Storage } from '@ionic/storage-angular';
 import { NavController } from '@ionic/angular';
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -35,13 +37,15 @@ export class LoginPage implements OnInit {
       const { email, contrasena } = this.user;
       const user = await this.usuariosServicio.loginUser(email, contrasena);
       
-      this.navCtrl.navigateForward(['tabs/imagenes'])
+      this.router.navigate(['tabs/imagenes'])
+      
       
     } catch (error) {
       this.loginError = true;
       console.error(error);
     }
   }
+
 
 }
 

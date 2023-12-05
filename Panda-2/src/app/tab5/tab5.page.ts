@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Storage } from '@ionic/storage-angular';
+import { NotificacionesService } from '../services/notificaciones.service';
+import { UsuariosService } from '../services/usuarios.service';
 
 @Component({
   selector: 'app-tab5',
@@ -6,34 +9,51 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tab5.page.scss'],
 })
 export class Tab5Page implements OnInit {
-  notifications: any[] = [
-    {
-      userAvatarUrl: 'https://i.pinimg.com/564x/a9/a5/b7/a9a5b7f1fc099ab24cf89f9fbd62b1e4.jpg',
-      title: 'Rukia',
-      message: 'Te ha comenzado a seguir',
-      fecha: '20:03 29/08/2023',
-    },
-    {
-      userAvatarUrl: 'https://i.pinimg.com/564x/ce/31/08/ce31080c26caea0bc51f391bc520db2d.jpg',
-      title: 'Mirai',
-      message: 'Le dio me gusta a la imagen que compartiste',
-      fecha: '21:33 23/08/2023',
-    },
-    {
-      userAvatarUrl: 'https://i.pinimg.com/236x/5f/db/01/5fdb0188dd857129a432b6a0bc875cc7.jpg',
-      title: 'Kallen',
-      message: 'Le dio me gusta a la imagen que compartiste',
-      fecha: '21:33 23/08/2023',
-    },
-    {
-      userAvatarUrl: 'https://i.pinimg.com/236x/1a/8e/aa/1a8eaa790174f889b856a40c17271b3a.jpg',
-      title: 'Hinata',
-      message: 'Le dio me gusta a la imagen que compartiste',
-      fecha: '21:33 23/08/2023',
-    },
-  ];
+  usuarioLogueado: any;
+  idUsuario: any;
+  isAdmin: any;
 
-  constructor() {}
+  notificaciones: any[] = [];
 
-  ngOnInit() {}
+  constructor(private storage: Storage, private notificacionServicio: NotificacionesService, private usuarioService: UsuariosService) {
+    this.storage.create();
+    
+  }
+
+  async ngOnInit() {
+    await this.cargarUsuarioData();
+    await this.cargarNotificaciones();
+  }
+  
+  async ionViewWillEnter() {
+    await this.cargarUsuarioData();
+    await this.cargarNotificaciones();
+  }
+
+  
+  async cargarUsuarioData() {
+    try {
+      const currentUser = await this.usuarioService.getCurrentUser();
+      if (currentUser) {
+        this.usuarioLogueado = currentUser.nombre;
+        this.idUsuario = currentUser.idUsuario;
+        this.isAdmin = currentUser.isAdmin;
+        console.log(`Id usuario actual: ${this.idUsuario} Nombre usuario actual ${this.usuarioLogueado}`);
+      }
+    } catch (error) {
+      console.error('Error al cargar datos del usuario:', error);
+    }
+  }
+  
+  async cargarNotificaciones() {
+    try {
+      const notificaciones = await this.notificacionServicio.getNotificacionesPorId(this.idUsuario);
+      this.notificaciones = notificaciones;
+      console.log('Datos de las notificaciones en la base de datos:');
+      console.log(this.notificaciones);
+    } catch (error) {
+      console.error('Error al cargar notificaciones:', error);
+    }
+  }
+  
 }

@@ -5,6 +5,8 @@ import { ImagenService } from '../services/imagen.service';
 import { UsuariosService } from '../services/usuarios.service';
 import { Storage } from '@ionic/storage-angular';
 import { LikeService } from '../services/like.service';
+import { NotificacionesService } from '../services/notificaciones.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tab1',
@@ -13,6 +15,7 @@ import { LikeService } from '../services/like.service';
 })
 
 export class Tab1Page {
+  private cantidadNotificacionesSubscription!: Subscription;
 
   nombreUsuario: any;
   currentUser: any;
@@ -23,7 +26,8 @@ export class Tab1Page {
   imagenId: any;
   currentImageId: any;
 
-  constructor(private likeServicio: LikeService, private router: Router, private imagenServicio: ImagenService, private usuarioService: UsuariosService, private storage: Storage) {
+  cantidadNotificacionesNoVistas: any;
+  constructor(private likeServicio: LikeService, private router: Router, private imagenServicio: ImagenService, private usuarioService: UsuariosService, private storage: Storage, private notificacionService: NotificacionesService) {
     this.storage.create();
 
     this.router.events.subscribe((event) => {
@@ -31,21 +35,25 @@ export class Tab1Page {
         const currentRoute = this.router.url;
         if (currentRoute === '/tabs/imagenes') {
           this.cargarUsuarioData();
+          
         }
       }
     });
   }
 
-  ngOnInit(){
-    this.cargarUsuarioData();
-    this.loadImages();
+    ngOnInit(){
+      this.cargarUsuarioData();
+      this.loadImages();
+      this.obtenerNotificaciones();
+      this.obtenerCantidadNotificacionesNoVistas();
+    }
 
-  }
-
-  ionViewWillEnter(){
-    this.cargarUsuarioData();
-    this.loadImages();
-  }
+    ionViewWillEnter(){
+      this.cargarUsuarioData();
+      this.loadImages();
+      this.obtenerNotificaciones();
+      this.obtenerCantidadNotificacionesNoVistas();
+    }
 
   async cargarUsuarioData() {
   try {
@@ -73,7 +81,8 @@ export class Tab1Page {
   cerrarSesion(){
     this.usuarioService.logoutUser();
     this.storage.clear();
-    this.router.navigate(['/login'])
+    this.router.navigate(['/login']);
+    
   }
 
   async agregarLike(idUsuario:any, imagenId: any) {
@@ -100,14 +109,42 @@ export class Tab1Page {
     const hasLiked = await this.likeServicio.hasLiked(idUsuario, imagenId);
     if (hasLiked) {
       await this.removerLike(idUsuario,imagenId);
+
     } else {
       await this.agregarLike(idUsuario,imagenId);
+
+      const imagen = this.imagenes.find((img) => img.id === imagenId); 
+      const notificacionExiste = await this.notificacionService.existeNotificacionDeLike(imagenId, this.idUsuario);
+
+      if (!notificacionExiste) {
+        await this.notificacionService.enviarNotificacionDeLike(imagen.id, this.idUsuario, imagen.usuario_id);
+        this.obtenerCantidadNotificacionesNoVistas();
+      } else {
+        console.log('No se ha agregado la notificación porque ya existe');
+      }
     }
     this.loadImages();
   }
 
+  async obtenerNotificaciones() {
+    try {
+      const notificaciones = await this.notificacionService.getNotificaciones();
+      console.log('Notificaciones obtenidas:', notificaciones);
+    } catch (error) {
+      console.error('Error al obtener notificaciones:', error);
+    }
+  }
 
-  
+  async obtenerCantidadNotificacionesNoVistas() {
+    try {
+      this.cantidadNotificacionesNoVistas = await this.notificacionService.getCantidadNotificacionesNoVistasPorId(this.idUsuario);
+      console.log('Cantidad de notis no vistas: ', this.cantidadNotificacionesNoVistas);
+      
+    } catch (error) {
+      console.error('Error al obtener la cantidad de notificaciones no vistas:', error);
+    }
+  }
+
 }
 
 

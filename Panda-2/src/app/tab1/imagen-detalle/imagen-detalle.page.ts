@@ -91,6 +91,35 @@ export class ImagenDetallePage implements OnInit {
     await alert.present();
   }
 
+  async opcionesAdmin() {
+    const alert = await this.alertController.create({
+      header: 'Opciones de Administrador',
+      message: '¿Seguro que quieres deshabilitar la imagen?',
+      buttons: [
+        {
+          text: "Cancelar",
+          role: "cancel",
+          cssClass: "secondary",
+          handler: () => {
+            console.log('Operación cancelada');
+          }
+        },
+        {
+          text: "Aceptar",
+          role: "destructive",
+          cssClass: "danger",
+          handler: () => {
+            this.imagenServicio.banearImagen(this.imagen.id);
+            this.router.navigate(['/tabs/imagenes']);
+          }
+        }
+      ]
+    });
+  
+    await alert.present();
+  }
+  
+
   async cargarComentariosPorImagen(imagenId: number) {
     this.comentariosServicio.getComentariosPorImagen(imagenId).then((comentarios) => {
       this.comentarios = comentarios;

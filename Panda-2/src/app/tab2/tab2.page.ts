@@ -18,12 +18,12 @@ export class Tab2Page {
 
   featuredImage: any;
 
-  ngOnInit() {
+  /*ngOnInit() {
     this.loadRandomImage();
     setInterval(() => {
       this.loadRandomImage();
     }, 72 * 1000); 
-  } 
+  }*/
   
 
 async loadRandomImage() {

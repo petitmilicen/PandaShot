@@ -30,7 +30,7 @@ export class UsuariosService {
     foto_perfil BLOB,
     biografia TEXT,
     is_admin BOOLEAN,
-    edad INTEGWER,
+    edad INTEGER,
     fecha_unio DATETIME DEFAULT CURRENT_TIMESTAMP
 
   );`
@@ -98,6 +98,7 @@ export class UsuariosService {
         if (user.contrasena === password) {
 
           const currentUser = {nombre: user.nombre, idUsuario: user.id, isAdmin: user.is_admin};
+          
           await this.storage.set('currentUser', currentUser);
         } else {
           throw new Error("Contraseña incorrecta.");
@@ -205,10 +206,11 @@ export class UsuariosService {
             const query = `
               UPDATE usuarios
               SET nombre = ?,
+              biografia = ?
               WHERE id = ?
             `;
   
-            await this.database.executeSql(query, [id, nuevoNombre, nuevabiografia]);
+            await this.database.executeSql(query, [nuevoNombre, nuevabiografia, id]);
             resolve();
           } catch (error) {
             reject(error);
@@ -217,6 +219,7 @@ export class UsuariosService {
       });
     });
   }
+  
 
   async editUsuarioImagen(id: any, nuevaImagen: string): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
