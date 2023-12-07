@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'editar-perfil/:usuarioId',
     loadChildren: () => import('./editar-perfil/editar-perfil.module').then( m => m.EditarPerfilPageModule)
+  },
+  {
+    path: 'editar-foto/:usuarioId',
+    loadChildren: () => import('./editar-foto/editar-foto.module').then( m => m.EditarFotoPageModule)
   }
 
 ];

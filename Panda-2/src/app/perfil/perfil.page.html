@@ -14,23 +14,28 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-card class="profile-card" style="background-color: white;">
-    <div class="profile-picture-container">
-      <ion-img class="circular-image" src="https://i.pinimg.com/564x/c7/ac/68/c7ac68c45a1927de8f4bcdbf5517b583.jpg" alt="Foto de perfil"></ion-img>
-    </div>
+  <div class="profile-picture-container">
+  <ion-img class="circular-image" 
+  [src]="usuario?.foto_perfil ? usuario.foto_perfil : 'https://i.pinimg.com/564x/c7/ac/68/c7ac68c45a1927de8f4bcdbf5517b583.jpg'" 
+  alt="Foto de perfil">
+  </ion-img>
+  </div>
 
-    <mat-card-content class="profile-details">
-      <p>{{usuario?.biografia}}</p>
+  <mat-card-content class="profile-details">
+    <p>{{usuario?.biografia}}</p>
+    <p><mat-icon style="vertical-align: text-bottom;">date_range</mat-icon> Se unió en {{usuario?.fecha_unio | date:'MMM d, y'}}</p>
+  </mat-card-content>
 
-      <p>Se unió el {{usuario?.fecha_unio | date:'M/d/yy'}}</p>
-      </mat-card-content>
+  <mat-card-content class="profile-details" >
+    <p>	<mat-icon style="vertical-align: text-bottom;"> insert_photo</mat-icon> Publicaciones {{cantidadImagenes}}</p>
+  </mat-card-content>
+  
+  <mat-card-content class="profile-details" *ngIf="usuarioIdPerfil === (idUsuario | number)" style="padding-top: 10px;">
+    <ion-button color="primary" [routerLink]="['editar-foto', idUsuario]">Editar Foto</ion-button>
+    <ion-button color="primary" [routerLink]="['editar-perfil', idUsuario]">Editar Perfil</ion-button>
+  </mat-card-content>
 
-    <mat-card-content class="profile-details" *ngIf="usuarioIdPerfil === (idUsuario | number)">
-      <ion-button color="primary">Modificar Foto</ion-button>
-      <ion-button color="primary" [routerLink]="['editar-perfil', idUsuario]">Modificar Perfil</ion-button>
-    </mat-card-content>
-
-  </ion-card>
+  <div class="divider"></div>
 
 
   <ion-grid class="custom-grid">

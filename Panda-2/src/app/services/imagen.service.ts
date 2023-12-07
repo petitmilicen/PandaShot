@@ -227,7 +227,29 @@ export class ImagenService {
       }
     });
   }
+
+  async getCantidadImagenesPorId(usuarioId: number): Promise<number> {
+    return new Promise<number>(async (resolve, reject) => {
+      this.isready.subscribe(async (ready) => {
+        if (ready) {
+          try {
+            const query = `
+              SELECT COUNT(*) as cantidad
+              FROM imagen
+              WHERE usuario_id = ? AND disponible = 1
+            `;
+            const parametros = [usuarioId];
   
+            const resultado = await this.database.executeSql(query, parametros);
+            const cantidad = resultado.rows.item(0).cantidad;
   
+            resolve(cantidad);
+          } catch (error) {
+            reject(error);
+          }
+        }
+      });
+    });
+  } 
   
 }

@@ -228,11 +228,11 @@ export class UsuariosService {
           try {
             const query = `
               UPDATE usuarios
-              SET foto_perfil = ?,
+              SET foto_perfil = ?
               WHERE id = ?
             `;
   
-            await this.database.executeSql(query, [id, nuevaImagen]);
+            await this.database.executeSql(query, [nuevaImagen, id]);
             resolve();
           } catch (error) {
             reject(error);

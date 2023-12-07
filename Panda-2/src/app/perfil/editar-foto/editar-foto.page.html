@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="perfil/usuario.id"></ion-back-button>
+    </ion-buttons>
+    
+    <ion-title>Editar foto de perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <form (ngSubmit)="editarFoto()">
+        
+    <ion-button type="button" expand="full" (click)="tomarFoto()">Tomar Foto</ion-button>
+  
+    <img *ngIf="usuario.foto_perfil" [src]="usuario.foto_perfil" alt="usuario.foto_perfil">
+    
+    <ion-button id="open-toast" expand="block" type="submit"><mat-icon>save</mat-icon></ion-button>
+
+    <ion-toast trigger="open-toast" 
+    message="Imagen ha sido editada correctamente" 
+    [duration]="5000" 
+    *ngIf="imagenEditadaToast">
+    </ion-toast>
+
+  </form>
+
+</ion-content>
+

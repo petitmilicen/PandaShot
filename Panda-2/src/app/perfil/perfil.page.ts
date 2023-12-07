@@ -20,7 +20,7 @@ export class PerfilPage implements OnInit {
   isAdmin!: any;
 
   imagenes!: any;
-  
+  cantidadImagenes: number = 0;
   usuarioIdPerfil!: any;
 
   constructor(private usuarioService: UsuariosService, private router: Router, private activatedRoute: ActivatedRoute, private storage: Storage, private imagenServicio: ImagenService) { }
@@ -31,6 +31,7 @@ export class PerfilPage implements OnInit {
     await this.cargarUsuarioData();
     console.log('id del perfil:', this.usuarioIdPerfil, 'id del usuario actual: ', this.idUsuario);
 
+    this.obtenerCantidadImagenes(this.idUsuario);
     this.obtenerImagenesPorUsuario(this.idUsuario);
   }
 
@@ -40,6 +41,7 @@ export class PerfilPage implements OnInit {
     await this.cargarUsuarioData();
     console.log('id del perfil:', this.usuarioIdPerfil, 'id del usuario actual: ', this.idUsuario);
 
+    this.obtenerCantidadImagenes(this.idUsuario);
     this.obtenerImagenesPorUsuario(this.idUsuario);
   }
 
@@ -80,6 +82,17 @@ export class PerfilPage implements OnInit {
       })
       .catch((error) => {
         console.error('Error al obtener imágenes del usuario:', error);
+      });
+  }
+
+  obtenerCantidadImagenes(usuarioId: number) {
+    this.imagenServicio.getCantidadImagenesPorId(usuarioId)
+      .then((cantidad) => {
+        this.cantidadImagenes = cantidad;
+        console.log(`Cantidad de imágenes del usuario: ${this.cantidadImagenes}`);
+      })
+      .catch((error) => {
+        console.error('Error al obtener la cantidad de imágenes del usuario:', error);
       });
   }
   
