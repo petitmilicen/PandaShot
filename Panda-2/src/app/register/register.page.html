@@ -6,12 +6,11 @@
 
 <ion-content [fullscreen]="true" class="ion-text-center">
   <div style="width: 260px; padding: 10px; right: 0; left: 0; margin: 0 auto;">
-    <ion-img src="assets/logo.png" ></ion-img>
-    </div>
+    <ion-img src="assets/logo.png"></ion-img>
+  </div>
   <ion-grid>
     <ion-row class="ion-justify-content-center ion-align-items-center">
       <ion-col size-md="6" size-lg="4">
-
         <form (ngSubmit)="registrarUsuario()">
           <ion-item class="ion-margin">
             <ion-label position="floating">Usuario</ion-label>
@@ -25,7 +24,7 @@
           </ion-item>
           <div *ngIf="!nombreValido" class="error-message">El nombre debe tener al menos 3 caracteres.</div>
           <div *ngIf="!nombreUsuarioValido" class="error-message">El nombre ya está registrado.</div>
-        
+
           <ion-item class="ion-margin">
             <ion-label position="floating">Correo electrónico</ion-label>
             <ion-input
@@ -38,7 +37,7 @@
           </ion-item>
           <div *ngIf="!correoExiste" class="error-message">El correo electrónico ya está registrado.</div>
           <div *ngIf="!correoValido" class="error-message">El correo electrónico no es válido.</div>
-        
+
           <ion-item class="ion-margin">
             <ion-label position="floating">Contraseña</ion-label>
             <ion-input
@@ -51,7 +50,7 @@
             ></ion-input>
           </ion-item>
           <div *ngIf="!contrasenaValida" class="error-message">La contraseña debe tener al menos 6 caracteres y contener al menos un número.</div>
-        
+
           <ion-item class="ion-margin">
             <ion-label position="floating">Confirmar contraseña</ion-label>
             <ion-input
@@ -64,27 +63,24 @@
             ></ion-input>
           </ion-item>
           <div *ngIf="!contrasenasCoinciden" class="error-message">Las contraseñas no coinciden.</div>
-        
+
           <ion-item class="ion-margin">
-            <ion-label position="floating">Edad </ion-label>
-            <ion-input
-              type="number"
-              placeholder="Ingresa tu edad"
-              [(ngModel)]="edad"
-              name="edad"
-              (input)="validarEdad()"
+            <ion-label position="floating">Fecha de nacimiento</ion-label>
+            <ion-datetime
+              displayFormat="DD/MM/YYYY"
+              presentation="month-year"
+              placeholder="Selecciona tu fecha de nacimiento"
+              [(ngModel)]="fechaNacimiento"
+              name="fechaNacimiento"
+              (input)="validarFechaNacimiento()"
               required
-              maxlength="2"
-              ></ion-input>
+            ></ion-datetime>
           </ion-item>
 
-          <div *ngIf="!edadValida" class="error-message">Debes tener almenos 16 años para registrarte</div>
-          
-          
-        
+          <div *ngIf="!edadValida" class="error-message">Debes tener al menos 16 años para registrarte.</div>
+
           <ion-button class="ion-margin" type="submit">Registrar cuenta</ion-button>
         </form>
-        
 
         <ion-button class="ion-margin" [routerLink]="['/login']">¿Ya tienes cuenta? Inicia sesión</ion-button>
       </ion-col>

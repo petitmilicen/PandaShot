@@ -26,15 +26,12 @@ export class UsuariosService {
     nombre VARCHAR(255),
     correo VARCHAR(255),
     contrasena VARCHAR(255),
-    fecha_nacimiento DATETIME,
     foto_perfil BLOB,
     biografia TEXT,
     is_admin BOOLEAN,
     edad INTEGER,
     fecha_unio DATETIME DEFAULT CURRENT_TIMESTAMP
-
   );`
-
   insertDiego = `
   INSERT INTO usuarios (id, nombre, correo, contrasena, edad, foto_perfil, biografia, is_admin)
   SELECT 1, 'Diego', 'die.venegas@duocuc.cl', 'asd123', 21, NULL, 'Hola', 1
@@ -72,7 +69,7 @@ export class UsuariosService {
 
   }
 
-  async registerUser(nombre: string, contrasena: string, correo: string, edad: number) {
+  async registerUser(nombre: string, contrasena: string, correo: string, edad: any) {
 
     try {
       const resultado = await this.database.executeSql(

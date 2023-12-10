@@ -36,7 +36,6 @@ export class LoginPage implements OnInit {
     try {
       const { email, contrasena } = this.user;
       const user = await this.usuariosServicio.loginUser(email, contrasena);
-      
       this.router.navigate(['tabs/imagenes'])
       
       

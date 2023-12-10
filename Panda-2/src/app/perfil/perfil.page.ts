@@ -29,20 +29,20 @@ export class PerfilPage implements OnInit {
     this.storage.create();
     await this.cargarDatos();
     await this.cargarUsuarioData();
-    console.log('id del perfil:', this.usuarioIdPerfil, 'id del usuario actual: ', this.idUsuario);
+    console.log('id del perfil:', this.usuarioIdPerfil, 'id del usuario actual: ', this.usuarioIdPerfil);
 
-    this.obtenerCantidadImagenes(this.idUsuario);
-    this.obtenerImagenesPorUsuario(this.idUsuario);
+    this.obtenerCantidadImagenes(this.usuarioIdPerfil);
+    this.obtenerImagenesPorUsuario(this.usuarioIdPerfil);
   }
 
   async ionViewWillEnter(){
     this.storage.create();
     await this.cargarDatos();
     await this.cargarUsuarioData();
-    console.log('id del perfil:', this.usuarioIdPerfil, 'id del usuario actual: ', this.idUsuario);
+    console.log('id del perfil:', this.usuarioIdPerfil, 'id del usuario actual: ', this.usuarioIdPerfil);
 
-    this.obtenerCantidadImagenes(this.idUsuario);
-    this.obtenerImagenesPorUsuario(this.idUsuario);
+    this.obtenerCantidadImagenes(this.usuarioIdPerfil);
+    this.obtenerImagenesPorUsuario(this.usuarioIdPerfil);
   }
 
   async cargarUsuario(id: number) {

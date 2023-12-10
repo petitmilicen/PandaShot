@@ -89,11 +89,13 @@ async tomarFoto() {
 async cargarCategorias() {
   try {
     const categorias = await this.categoriaServicio.getCategorias();
-    this.categorias = categorias
+
+    this.categorias = categorias.filter(categoria => categoria.id !== 9);
   } catch (error) {
     console.error('Error al cargar las categorías:', error);
   }
 }
+
 
 
 }

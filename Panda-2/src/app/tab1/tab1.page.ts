@@ -17,7 +17,8 @@ import { CategoriaService } from '../services/categoria.service';
 })
 
 export class Tab1Page {
-  private cantidadNotificacionesSubscription!: Subscription;
+  
+  imagenesBaneadas: any;
 
   nombreUsuario: any;
   currentUser: any;
@@ -78,25 +79,23 @@ export class Tab1Page {
   }
 }
 
-loadImages() {
-  this.imagenServicio.getImagenes().then((imagenes) => {
-    this.getCategoriaId().then(selectedCategoriaId => {
-      if (selectedCategoriaId) {
-        this.imagenes = imagenes.filter(imagen => imagen.categoria_id === selectedCategoriaId);
-      } else {
-        this.imagenes = imagenes;
-      }
+  async loadImages() {
+    this.imagenServicio.getImagenes().then((imagenes) => {
+      this.getCategoriaId().then(selectedCategoriaId => {
+        if (selectedCategoriaId && selectedCategoriaId !== 9) {
+          this.imagenes = imagenes.filter(imagen => imagen.categoria_id === selectedCategoriaId);
+        } else {
+          this.imagenes = imagenes;
+        }
 
-      console.log('Datos de imágenes en la base de datos:');
-      console.log(this.imagenes);
+        console.log('Datos de imágenes en la base de datos:');
+        console.log(this.imagenes);
+      });
     });
-  });
-}
-
+  }
 
   cerrarSesion(){
     this.usuarioService.logoutUser();
-    this.storage.clear();
     this.router.navigate(['/login']);
     
   }
@@ -168,6 +167,7 @@ loadImages() {
       this.categorias.forEach(categoria => {
         categoria.checked = (categoria.id === selectedCategoriaId);
       });
+      
     }
   }
   
@@ -219,10 +219,7 @@ loadImages() {
   async getCategoriaId() {
     return await this.storage.get('selectedCategoriaId');
   }
-  
-  
 }
-
 
 
 

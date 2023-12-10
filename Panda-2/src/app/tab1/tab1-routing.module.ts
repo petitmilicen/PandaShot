@@ -19,7 +19,11 @@ const routes: Routes = [
   {
     path: 'editar-imagen',
     loadChildren: () => import('./editar-imagen/editar-imagen.module').then( m => m.EditarImagenPageModule)
+  },  {
+    path: 'imagenes-baneadas',
+    loadChildren: () => import('./imagenes-baneadas/imagenes-baneadas.module').then( m => m.ImagenesBaneadasPageModule)
   }
+
 ];
 
 @NgModule({

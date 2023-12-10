@@ -31,32 +31,36 @@
 
 <ion-content>
   <div class="separador">
-  <mat-card>
-    <img mat-card-image [src]="imagen?.imagen" alt="" >
-    <mat-card-header style="padding-left: 6px;">
-      <mat-card-title>{{imagen?.titulo}}</mat-card-title>
-      <mat-card-subtitle>Creada por <a [routerLink]="['/perfil/', imagen?.usuario_id]" style="color: black; text-decoration: none;">{{imagen?.nombre_usuario}}</a></mat-card-subtitle>
-      <mat-card-subtitle>{{imagen?.fecha_publicacion | date:'M/d/yy'}}</mat-card-subtitle>
-    </mat-card-header>
-
-    <mat-card-actions>
-
-      <button mat-icon-button matTooltip="Warn" color="warn" (click)="toggleLike()">
-        <mat-icon>favorite</mat-icon>
-      </button>
-      {{likes}}
-
-      <button mat-icon-button color="black">
-        <mat-icon>bookmark</mat-icon>
-      </button>
-      <button mat-icon-button color="black">
-        <mat-icon>share</mat-icon>
-      </button>
-      <button mat-icon-button color="black">
-        <mat-icon>save_alt</mat-icon>
-      </button>
-    </mat-card-actions>
-  </mat-card> 
+    <mat-card>
+      <img mat-card-image [src]="imagen?.imagen" alt="">
+      <mat-card-header style="padding-left: 6px;">
+        <mat-card-title>{{imagen?.titulo}}</mat-card-title>
+        <mat-card-subtitle>Creada por <a [routerLink]="['/perfil/', imagen?.usuario_id]" style="color: black; text-decoration: none;">{{imagen?.nombre_usuario}}</a></mat-card-subtitle>
+        <mat-card-subtitle>{{imagen?.fecha_publicacion | date:'MMM d, y'}}</mat-card-subtitle>
+        <mat-card-subtitle>Categoría: {{imagen?.nombre_categoria}}</mat-card-subtitle>
+      </mat-card-header>
+    
+      <mat-card-actions>
+        <button mat-icon-button matTooltip="Warn" color="warn" (click)="toggleLike()">
+          <mat-icon>favorite</mat-icon>
+        </button>
+        {{likes}}
+        
+        <button mat-icon-button color="black">
+          <mat-icon>bookmark</mat-icon>
+        </button>
+        <button mat-icon-button color="black">
+          <mat-icon>share</mat-icon>
+        </button>
+        <button mat-icon-button color="black">
+          <mat-icon>save_alt</mat-icon>
+        </button>
+      </mat-card-actions>
+    
+      <mat-card-content *ngIf="imagen?.disponible === 0" style="color: red;">
+        Imagen deshabilitada
+      </mat-card-content>
+    </mat-card> 
   </div>
 
   <ion-item>

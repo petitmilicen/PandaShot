@@ -98,18 +98,18 @@ export class ImagenService {
 
 
   async getImagen(id: number): Promise<any | null> {
-    
     return new Promise<any | null>(async (resolve, reject) => {
       this.isready.subscribe(async (ready) => {
         if (ready) {
           try {
             const resultado = await this.database.executeSql(` 
-            SELECT imagen.*, usuarios.nombre AS nombre_usuario
-            FROM imagen
-            INNER JOIN usuarios ON imagen.usuario_id = usuarios.id
-            WHERE imagen.id = ?
-            ORDER BY imagen.fecha_publicacion DESC;`, [id]);
-            
+              SELECT imagen.*, usuarios.nombre AS nombre_usuario, categoria.nombre AS nombre_categoria
+              FROM imagen
+              INNER JOIN usuarios ON imagen.usuario_id = usuarios.id
+              INNER JOIN categoria ON imagen.categoria_id = categoria.id
+              WHERE imagen.id = ?
+              ORDER BY imagen.fecha_publicacion DESC;`, [id]);
+  
             if (resultado.rows.length > 0) {
               const imagen: any = resultado.rows.item(0);
               resolve(imagen);
@@ -123,6 +123,7 @@ export class ImagenService {
       });
     });
   }
+  
 
   async deleteImagen(id: number) {
     return this.database
@@ -249,6 +250,52 @@ export class ImagenService {
         }
       });
     });
-  } 
+  }
+
+  async getImagenesBaneadas(): Promise<any[]> {
+    return new Promise<any[]>(async (resolve, reject) => {
+      this.isready.subscribe(async (ready) => {
+        if (ready) {
+          try {
+            const query = `
+              SELECT imagen.*, usuarios.nombre AS nombre_usuario
+              FROM imagen
+              INNER JOIN usuarios ON imagen.usuario_id = usuarios.id
+              WHERE imagen.disponible = 0
+              ORDER BY imagen.fecha_publicacion DESC
+            `;
+    
+            const imagenes = await this.database.executeSql(query, []);
+            const items: any[] = [];
+    
+            for (let i = 0; i < imagenes.rows.length; i++) {
+              items.push(imagenes.rows.item(i));
+            }
+    
+            resolve(items);
+          } catch (error) {
+            reject(error);
+          }
+        }
+      });
+    });
+  }
+
+  async habilitarImagen(idImagen: number): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        await this.database.executeSql(
+          `UPDATE imagen SET disponible = 1 WHERE id = ?`,
+          [idImagen]
+        );
+        
+        resolve();
+      } catch (error) {
+        console.error('Error al habilitar la imagen:', error);
+        reject(error);
+      }
+    });
+  }
+  
   
 }

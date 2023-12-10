@@ -33,10 +33,9 @@ export class CategoriaService {
     { id: 5, nombre: 'Libros y Lectura' },
     { id: 6, nombre: 'Arte' },
     { id: 7, nombre: 'Deportes' },
-    { id: 8, nombre: 'Ciencia y Tecnologia' }
+    { id: 8, nombre: 'Ciencia y Tecnologia' },
+    { id: 9, nombre: 'Todas las categorias'}
   ];
-  
-  delete = `delete from categoria`
 
   async crearTablas() {
     try {
@@ -74,6 +73,7 @@ export class CategoriaService {
             const query = `
               SELECT *
               FROM Categoria
+              ORDER BY id DESC
             `;
   
             const resultado = await this.database.executeSql(query, []);

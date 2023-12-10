@@ -41,7 +41,15 @@
       <ion-fab-button [routerLink]="['/perfil', idUsuario]">
         <mat-icon>person</mat-icon>
       </ion-fab-button>
+
+      <ion-fab-button *ngIf="isAdmin === 1" [routerLink]="['/tabs/imagenes/imagenes-baneadas']">
+        <mat-icon>apps</mat-icon>
+      </ion-fab-button>
+      
     </ion-fab-list>
+
+
+
   </ion-fab>
 
   <ion-grid class="custom-grid" *ngIf="imagenes.length > 0; else noImages">
