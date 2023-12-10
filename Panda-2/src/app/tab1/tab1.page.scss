@@ -7,3 +7,22 @@
 .custom-card-actions{
     padding: 0%;
 }
+
+.no-imagenes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100vh; 
+  }
+  
+  
+  .mensaje {
+    font-size: 18px; 
+  }
+
+  .imagen-triste {
+    width: 100px; 
+    height: auto;
+    margin-top: 10px; 
+  }

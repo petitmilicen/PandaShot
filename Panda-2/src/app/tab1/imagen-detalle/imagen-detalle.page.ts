@@ -10,6 +10,7 @@ import { ComentariosService } from 'src/app/services/comentarios.service';
 
 import { Storage } from '@ionic/storage-angular';
 import { LikeService } from 'src/app/services/like.service';
+import { NotificacionesService } from 'src/app/services/notificaciones.service';
 
 @Component({
   selector: 'app-imagen-detalle',
@@ -27,7 +28,7 @@ export class ImagenDetallePage implements OnInit {
 
   texto: any;
 
-  constructor(private likeServicio: LikeService,private storage: Storage, private comentariosServicio: ComentariosService, private activatedRoute: ActivatedRoute, private usuariosServicio: UsuariosService, private imagenServicio: ImagenService , private router: Router, private alertController: AlertController) { }
+  constructor(private notificacionService: NotificacionesService, private likeServicio: LikeService,private storage: Storage, private comentariosServicio: ComentariosService, private activatedRoute: ActivatedRoute, private usuariosServicio: UsuariosService, private imagenServicio: ImagenService , private router: Router, private alertController: AlertController) { }
 
   ngOnInit() {
     this.storage.create();
@@ -132,20 +133,17 @@ export class ImagenDetallePage implements OnInit {
       console.error('El comentario está vacío o solo contiene espacios en blanco');
       return;
     }
-  
-    this.comentariosServicio.agregarComentario(this.texto, this.idUsuario, this.imagen.id).then(() => {
-      this.cargarComentariosPorImagen(Number(this.imagen.id));
-      this.texto = "";
-    }).catch((error) => {
-      console.error('Error al agregar el comentario:', error);
-    });
-  }
 
-  async cargarLikesPorImagen(imagenId: any) {
-    this.likeServicio.getLikes(imagenId).then((likes) => {
-      this.likes = likes;
-      console.log('Likes:', this.likes);
-    });
+    this.comentariosServicio.agregarComentario(this.texto, this.idUsuario, this.imagen.id)
+      .then(async () => {
+        await this.notificacionService.enviarNotificacionDeComentario(this.imagen.id, this.idUsuario, this.imagen.usuario_id);
+
+        this.cargarComentariosPorImagen(Number(this.imagen.id));
+        this.texto = "";
+      })
+      .catch((error) => {
+        console.error('Error al agregar el comentario:', error);
+      });
   }
 
   async agregarLike() {
@@ -156,6 +154,13 @@ export class ImagenDetallePage implements OnInit {
     } catch (error) {
       console.error('Error al agregar el like:', error);
     }
+  }
+
+  async cargarLikesPorImagen(imagenId: any) {
+    this.likeServicio.getLikes(imagenId).then((likes) => {
+      this.likes = likes;
+      console.log('Likes:', this.likes);
+    });
   }
   
   async removerLike() {
@@ -174,11 +179,81 @@ export class ImagenDetallePage implements OnInit {
       await this.removerLike();
     } else {
       await this.agregarLike();
+
+      const notificacionExiste = await this.notificacionService.existeNotificacionDeLike(this.imagen.id, this.idUsuario);
+
+      if (!notificacionExiste) {
+        await this.notificacionService.enviarNotificacionDeLike(this.imagen.id, this.idUsuario, this.imagen.usuario_id);
+      } else {
+        console.log('No se ha agregado la notificación porque ya existe');
+      }
     }
     this.cargarLikesPorImagen(this.imagen.id);
   }
 
-  async descargarImagen() {
-
+  async editarComentario(comentario: any) {
+    const alert = await this.alertController.create({
+      header: 'Editar Comentario',
+      inputs: [
+        {
+          name: 'nuevoTexto',
+          type: 'text',
+          placeholder: 'Nuevo texto',
+          value: comentario.texto,
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Guardar',
+          handler: (data) => {
+            const nuevoTexto = data.nuevoTexto;
+            if (nuevoTexto && nuevoTexto.trim() !== '') {
+              this.comentariosServicio.editarComentario(comentario.id, nuevoTexto)
+                .then(() => {
+                  this.cargarComentariosPorImagen(Number(this.imagen.id));
+                })
+                .catch((error) => {
+                  console.error('Error al actualizar el comentario:', error);
+                });
+            }
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
+
+  async eliminarComentario(comentario: any) {
+    const alert = await this.alertController.create({
+      header: 'Eliminar Comentario',
+      message: '¿Estás seguro de que quieres eliminar este comentario?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          handler: async () => {
+            try {
+              await this.comentariosServicio.eliminarComentario(comentario.id);
+              this.cargarComentariosPorImagen(Number(this.imagen.id));
+            } catch (error) {
+              console.error('Error al eliminar el comentario:', error);
+            }
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  
+  
+  
+  
 }

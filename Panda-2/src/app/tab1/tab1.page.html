@@ -2,11 +2,17 @@
   <ion-toolbar>
 
     <ion-buttons slot="end">
+
+      <ion-button (click)="mostrarMenuCategorias()">
+        <mat-icon>category</mat-icon>
+      </ion-button>
+
       <ion-button [routerLink]="['/tabs/notificaciones']">
         <mat-icon>notifications</mat-icon>
-        <ion-badge class="custom-badge" color="danger" *ngIf="cantidadNotificacionesNoVistas > 0">{{ cantidadNotificacionesNoVistas }}</ion-badge>
-        
+        <ion-badge class="custom-badge" color="danger" *ngIf="cantidadNotificacionesNoVistas > 0">{{ cantidadNotificacionesNoVistas }}</ion-badge>         
       </ion-button>
+
+      
 
     </ion-buttons>
 
@@ -38,35 +44,44 @@
     </ion-fab-list>
   </ion-fab>
 
-  <ion-grid class="custom-grid">
+  <ion-grid class="custom-grid" *ngIf="imagenes.length > 0; else noImages">
     <ion-row>
       <ion-col size="6" *ngFor="let imagen of imagenes">
-
-        <mat-card class="custom-card" >
+        <mat-card class="custom-card">
           <a [routerLink]="['/tabs/imagenes', imagen.id]">
             <img mat-card-image [src]="imagen.imagen" alt="">
           </a>
           <mat-card-header class="custom-card-header">
-            <mat-card-title>{{imagen.titulo| titlecase}}</mat-card-title>
+            <mat-card-title>{{imagen.titulo | titlecase}}</mat-card-title>
             <mat-card-subtitle>Por {{imagen.nombre_usuario}}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-actions class="custom-card-actions">
             <button mat-icon-button matTooltip="Warn" color="warn" aria-label="Example icon-button with a heart icon" (click)="toggleLike(idUsuario,imagen.id)">
               <mat-icon>favorite</mat-icon>
-              
             </button>
             {{imagen.cantidad_likes}}
-            
             <button mat-icon-button color="black" aria-label="Example icon button with a bookmark icon">
               <mat-icon>bookmark</mat-icon>
             </button>
           </mat-card-actions>
         </mat-card>
-
-        
-        
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <ng-template #noImages>
+
+    <ion-row>
+      <ion-col size="12" class="no-imagenes" style="padding-top: 100px;" >
+
+      <ion-content>
+        <img [src]="['assets', 'panda-triste.png'].join('/')" class="imagen-triste">
+        <p class="mensaje">No hay imágenes disponibles en esta categoría.</p>
+      </ion-content>
+
+      </ion-col>
+    </ion-row>
+
+  </ng-template>
   
 </ion-content>

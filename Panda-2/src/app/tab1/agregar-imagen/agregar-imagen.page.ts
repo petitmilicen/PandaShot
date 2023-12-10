@@ -6,6 +6,7 @@ import { LoadingController, Platform, ToastController } from '@ionic/angular';
 import { ImagenService } from 'src/app/services/imagen.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { Storage } from '@ionic/storage-angular';
+import { CategoriaService } from 'src/app/services/categoria.service';
 @Component({
   selector: 'app-agregar-imagen',
   templateUrl: './agregar-imagen.page.html',
@@ -22,14 +23,17 @@ export class AgregarImagenPage implements OnInit {
   imagen!: string;
   idUsuario!: number;
   toastImagen = false;
+  idCategoria: any;
+  categorias: any;
 
   images: any[] = [];
 
-  constructor(private toastController: ToastController, private router: Router, private usuariosServicio: UsuariosService, private imagenServicio: ImagenService, private platform: Platform, private loadingCtrl: LoadingController, private storage: Storage ) {
+  constructor(private categoriaServicio: CategoriaService, private toastController: ToastController, private router: Router, private usuariosServicio: UsuariosService, private imagenServicio: ImagenService, private platform: Platform, private loadingCtrl: LoadingController, private storage: Storage ) {
     this.storage.create();
    }
 
 ngOnInit() {
+  this.cargarCategorias();
 
 }
 
@@ -42,13 +46,14 @@ ionViewWillEnter() {
       
     }
   });
+  this.cargarCategorias();
 }
 
 
 async subirImagen() {
   if (this.imagen && this.titulo) {
     try {
-      await this.imagenServicio.addImagen(this.titulo, this.imagen, this.descripcion, this.idUsuario);
+      await this.imagenServicio.addImagen(this.titulo, this.imagen, this.descripcion, this.idUsuario, this.idCategoria);
       this.toastImagen = true;
       this.router.navigate(['/tabs/imagenes']);
       const toast = await this.toastController.create({
@@ -78,6 +83,15 @@ async tomarFoto() {
 
   if (photo && photo.dataUrl) {
     this.imagen = photo.dataUrl; 
+  }
+}
+
+async cargarCategorias() {
+  try {
+    const categorias = await this.categoriaServicio.getCategorias();
+    this.categorias = categorias
+  } catch (error) {
+    console.error('Error al cargar las categorías:', error);
   }
 }
 

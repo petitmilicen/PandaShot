@@ -7,6 +7,8 @@ import { Storage } from '@ionic/storage-angular';
 import { LikeService } from '../services/like.service';
 import { NotificacionesService } from '../services/notificaciones.service';
 import { Subscription } from 'rxjs';
+import { AlertController } from '@ionic/angular';
+import { CategoriaService } from '../services/categoria.service';
 
 @Component({
   selector: 'app-tab1',
@@ -26,8 +28,10 @@ export class Tab1Page {
   imagenId: any;
   currentImageId: any;
 
+  categorias: any[] = []
+
   cantidadNotificacionesNoVistas: any;
-  constructor(private likeServicio: LikeService, private router: Router, private imagenServicio: ImagenService, private usuarioService: UsuariosService, private storage: Storage, private notificacionService: NotificacionesService) {
+  constructor(private categoriaServicio: CategoriaService, private alertController: AlertController, private likeServicio: LikeService, private router: Router, private imagenServicio: ImagenService, private usuarioService: UsuariosService, private storage: Storage, private notificacionService: NotificacionesService) {
     this.storage.create();
 
     this.router.events.subscribe((event) => {
@@ -46,6 +50,8 @@ export class Tab1Page {
       this.loadImages();
       this.obtenerNotificaciones();
       this.obtenerCantidadNotificacionesNoVistas();
+      this.cargarCategorias();
+      this.actualizarSeleccionCategoria();
     }
 
     ionViewWillEnter(){
@@ -53,6 +59,8 @@ export class Tab1Page {
       this.loadImages();
       this.obtenerNotificaciones();
       this.obtenerCantidadNotificacionesNoVistas();
+      this.cargarCategorias();
+      this.actualizarSeleccionCategoria();
     }
 
   async cargarUsuarioData() {
@@ -70,13 +78,21 @@ export class Tab1Page {
   }
 }
 
-  loadImages() {
-    this.imagenServicio.getImagenes().then((imagenes) => {
-      this.imagenes = imagenes;
+loadImages() {
+  this.imagenServicio.getImagenes().then((imagenes) => {
+    this.getCategoriaId().then(selectedCategoriaId => {
+      if (selectedCategoriaId) {
+        this.imagenes = imagenes.filter(imagen => imagen.categoria_id === selectedCategoriaId);
+      } else {
+        this.imagenes = imagenes;
+      }
+
       console.log('Datos de imágenes en la base de datos:');
       console.log(this.imagenes);
     });
-  }
+  });
+}
+
 
   cerrarSesion(){
     this.usuarioService.logoutUser();
@@ -145,6 +161,66 @@ export class Tab1Page {
     }
   }
 
+  async actualizarSeleccionCategoria() {
+    const selectedCategoriaId = await this.storage.get('selectedCategoriaId');
+  
+    if (selectedCategoriaId) {
+      this.categorias.forEach(categoria => {
+        categoria.checked = (categoria.id === selectedCategoriaId);
+      });
+    }
+  }
+  
+
+  async mostrarMenuCategorias() {
+    const alert = await this.alertController.create({
+      header: 'Selecciona una categoría',
+      inputs: this.categorias.map(categoria => ({
+        type: 'radio',
+        label: categoria.nombre,
+        value: categoria.id.toString(), 
+        checked: categoria.checked,
+      })),
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Aceptar',
+          handler: async (selectedCategoriaId) => {
+            const categoryId = parseInt(selectedCategoriaId, 10);
+  
+            console.log('ID de la categoría seleccionada:', categoryId);
+  
+            this.categorias.forEach(categoria => {
+              categoria.checked = (categoria.id === categoryId);
+            });
+            await this.storage.set('selectedCategoriaId', categoryId);
+            this.loadImages();
+          },
+        },
+      ],
+    });
+  
+    await alert.present();
+  }
+
+  async cargarCategorias() {
+    await this.categoriaServicio.getCategorias().then((categorias) => {
+      this.categorias = categorias;
+      console.log('Datos de categorias en la base de datos:');
+      console.log(this.categorias);
+    });
+  
+    await this.actualizarSeleccionCategoria();
+  }
+
+  async getCategoriaId() {
+    return await this.storage.get('selectedCategoriaId');
+  }
+  
+  
 }
 
 

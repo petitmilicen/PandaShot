@@ -67,35 +67,45 @@ export class ComentariosService {
   }
 
   async eliminarComentario(id: any) {
-    try {
-      const query = `
-        DELETE FROM comentario
-        WHERE id = ?
-      `;
-
-      await this.database.executeSql(query, [id]);
-
-      console.log('Comentario con imagen eliminado con éxito');
-    } catch (error) {
-      console.error('Error al eliminar el comentario con imagen:', error);
-    }
+    this.isready.subscribe(async (ready) => {
+      if (ready) {
+        try {
+          const query = `
+            DELETE FROM comentario
+            WHERE id = ?
+          `;
+    
+          await this.database.executeSql(query, [id]);
+    
+          console.log('Comentario con imagen eliminado con éxito');
+        } catch (error) {
+          console.error('Error al eliminar el comentario con imagen:', error);
+        }
+      }
+    });
   }
+  
 
   async editarComentario(id: any, nuevoTexto: string) {
-    try {
-      const query = `
-        UPDATE comentario
-        SET texto = ?
-        WHERE id = ?
-      `;
-
-      await this.database.executeSql(query, [nuevoTexto, id]);
-
-      console.log('Comentario con imagen editado con éxito');
-    } catch (error) {
-      console.error('Error al editar el comentario con imagen:', error);
-    }
+    this.isready.subscribe(async (ready) => {
+      if (ready) {
+        try {
+          const query = `
+            UPDATE comentario
+            SET texto = ?
+            WHERE id = ?
+          `;
+  
+          await this.database.executeSql(query, [nuevoTexto, id]);
+  
+          console.log('Comentario con imagen editado con éxito');
+        } catch (error) {
+          console.error('Error al editar el comentario con imagen:', error);
+        }
+      }
+    });
   }
+  
 
   async getComentariosPorImagen(imagen_id: any): Promise<any[]> {
 

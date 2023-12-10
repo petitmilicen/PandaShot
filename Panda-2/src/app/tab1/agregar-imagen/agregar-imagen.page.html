@@ -17,6 +17,16 @@
       <ion-input [(ngModel)]="descripcion" name="descripcion"></ion-input>
     </ion-item>
     
+    
+    <ion-item>
+      <ion-label>Categoría</ion-label>
+      <ion-select [(ngModel)]="idCategoria" interface="popover" name="idCategoria" required>
+        <ion-select-option *ngFor="let categoria of categorias" [value]="categoria.id">
+          {{ categoria.nombre }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
     <ion-button type="button" expand="full" (click)="tomarFoto()">Tomar Foto</ion-button>
   
     <img *ngIf="imagen" [src]="imagen" alt="Imagen">
@@ -24,7 +34,5 @@
     <ion-button type="submit" expand="full" [disabled]="!imagen" >Subir Imagen</ion-button>
     <ion-toast [isOpen]="toastImagen" message="Imagen subida exitosamente" [duration]="5000"></ion-toast>
   </form>
-  
 
 </ion-content>
-

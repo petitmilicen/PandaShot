@@ -52,7 +52,7 @@
       <button mat-icon-button color="black">
         <mat-icon>share</mat-icon>
       </button>
-      <button mat-icon-button color="black" (click)="descargarImagen()">
+      <button mat-icon-button color="black">
         <mat-icon>save_alt</mat-icon>
       </button>
     </mat-card-actions>
@@ -65,7 +65,7 @@
   </ion-item>
   
 
-  <ion-list>
+  <ion-list *ngIf="comentarios && comentarios.length > 0; else noComentariosTemplate">
     <ion-item *ngFor="let comentario of comentarios">
       <ion-avatar *ngIf="comentario.foto_usuario === null; else fotoPerfilTemplate" class="custom-avatar">
         <img src="https://i.pinimg.com/564x/c7/ac/68/c7ac68c45a1927de8f4bcdbf5517b583.jpg">
@@ -80,8 +80,23 @@
         <p>{{ comentario.texto }}</p>
         <p class="tiempo-comentario">{{comentario.fecha_creacion | date:"MMM d, y"}}</p>
       </ion-label>
+
+      <ion-buttons slot="end" *ngIf="comentario.usuario_id === idUsuario" style="position: absolute; top: 0; right: 0;" >
+        <ion-button color="warning" (click)="editarComentario(comentario)"><mat-icon>edit</mat-icon></ion-button>
+
+        <ion-button color="danger" (click)="eliminarComentario(comentario)"><mat-icon>delete</mat-icon></ion-button>
+      </ion-buttons>
+
     </ion-item>
   </ion-list>
+  
+  <ng-template #noComentariosTemplate>
+    <div class="ion-text-center" style="padding-top: 10px;">
+      <p>Aún no hay comentarios.</p>
+    </div>
+  </ng-template>
+  
+  
   
 
 </ion-content>

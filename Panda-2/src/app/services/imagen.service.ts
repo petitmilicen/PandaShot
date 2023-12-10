@@ -24,16 +24,14 @@ export class ImagenService {
     descripcion VARCHAR(255), 
     imagen BLOB,
     fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    usuario_id INTEGER,
     disponible BOOLEAN DEFAULT 1,
+    usuario_id INTEGER,
+    categoria_id INTEGER,
     FOREIGN KEY (usuario_id) REFERENCES usuarios (id)
+    FOREIGN KEY (categoria_id) REFERENCES categoria (id)
   )`;
 
   dropTableQuery = `DROP TABLE IF EXISTS imagen`;
-
-  alter= `UPDATE imagen
-  SET disponible = 1`
-
 
   async crearTablas() {
     try {
@@ -50,22 +48,23 @@ export class ImagenService {
     
   }
 
-  async addImagen(titulo: string, imagen: string, descripcion: string, usuarioId: number) {
-    console.log('Insertando imagen: ', titulo, imagen, descripcion);
+  async addImagen(titulo: string, imagen: string, descripcion: string, usuarioId: number, categoriaId: number) {
+    console.log('Insertando imagen: ', titulo, imagen, descripcion, categoriaId);
   
     try {
-      const resultado = await this.database.executeSql(
-        'INSERT INTO imagen (titulo, imagen, descripcion,usuario_id) VALUES (?,?,?,?)',
-        [titulo, imagen, descripcion, usuarioId]
-      ).then(() => {
-        console.log('Imagen agregada con éxito');
-        this.isready.next(true);
-      });
-      } catch (error) {
-        console.error('Error al subir la imagen:', error);
-        throw error;
-      }
+      await this.database.executeSql(
+        'INSERT INTO imagen (titulo, imagen, descripcion, usuario_id, categoria_id) VALUES (?,?,?,?,?)',
+        [titulo, imagen, descripcion, usuarioId, categoriaId]
+      );
+  
+      console.log('Imagen agregada con éxito');
+      this.isready.next(true);
+    } catch (error) {
+      console.error('Error al subir la imagen:', error);
+      throw error;
+    }
   }
+  
 
   async getImagenes(): Promise<any[]> {
     return new Promise<any[]>(async (resolve, reject) => {

@@ -161,20 +161,33 @@ async getNotificacionesPorId(usuarioId: number): Promise<any[]> {
   }
   
 
-  async enviarNotificacionDeComentario(imagenId: number, usuarioId: number, nombreUsuario: string): Promise<void> {
+  async enviarNotificacionDeComentario(imagenId: number, usuarioInteractuanteId: number, idUsuario: number): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
       this.isready.subscribe(async (ready) => {
         if (ready) {
           try {
-            const contenido = `${nombreUsuario} ha comentado tu publicación.`;
-  
-            const query = `
-              INSERT INTO notificaciones (contenido, imagen_id, usuario_id)
-              VALUES (?, ?, ?)
+            const queryNombreUsuario = `
+              SELECT nombre FROM usuarios WHERE id = ?
             `;
+            const resultadoNombreUsuario = await this.database.executeSql(queryNombreUsuario, [usuarioInteractuanteId]);
   
-            await this.database.executeSql(query, [contenido, imagenId, usuarioId]);
-            resolve();
+            if (resultadoNombreUsuario.rows.length > 0) {
+              const nombreUsuarioInteractuante = resultadoNombreUsuario.rows.item(0).nombre;
+  
+              const contenido = `${nombreUsuarioInteractuante} ha comentado tu publicación.`;
+  
+              const queryInsertarNotificacion = `
+                INSERT INTO notificaciones (contenido, imagen_id, usuario_id, usuario_interactuante_id)
+                VALUES (?, ?, ?, ?)
+              `;
+  
+              await this.database.executeSql(queryInsertarNotificacion, [contenido, imagenId, idUsuario, usuarioInteractuanteId]);
+              console.log(contenido, 'En la imagen con id', imagenId, 'del usuario con id', usuarioInteractuanteId);
+  
+              resolve();
+            } else {
+              reject('No se encontró el nombre del usuario interactuante.');
+            }
           } catch (error) {
             console.error('Error al enviar notificación de comentario:', error);
             reject(error);
@@ -183,6 +196,7 @@ async getNotificacionesPorId(usuarioId: number): Promise<any[]> {
       });
     });
   }
+  
   
   async getNotificaciones(): Promise<any[]> {
     return new Promise<any[]>(async (resolve, reject) => {
