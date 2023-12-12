@@ -30,16 +30,16 @@ export class UsuariosService {
     biografia TEXT,
     is_admin BOOLEAN,
     edad INTEGER,
+    pregunta_seguridad VARCHAR(255),
+    respuesta_seguridad VARCHAR(255),
     fecha_unio DATETIME DEFAULT CURRENT_TIMESTAMP
   );`
+
   insertDiego = `
-  INSERT INTO usuarios (id, nombre, correo, contrasena, edad, foto_perfil, biografia, is_admin)
-  SELECT 1, 'Diego', 'die.venegas@duocuc.cl', 'asd123', 21, NULL, 'Hola', 1
+  INSERT INTO usuarios (id, nombre, correo, contrasena, edad, foto_perfil, biografia, is_admin, pregunta_seguridad, respuesta_seguridad)
+  SELECT 1, 'Diego', 'die.venegas@duocuc.cl', 'asd123', 21, NULL, 'Hola', 1, '¿En qué ciudad naciste?', 'Santiago'
   WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE id = 1);
   `;
-
-
-  dropTableQuery = `DROP TABLE IF EXISTS usuarios`;
 
   async crearTablas() {
     try {
@@ -69,18 +69,19 @@ export class UsuariosService {
 
   }
 
-  async registerUser(nombre: string, contrasena: string, correo: string, edad: any) {
+async registerUser(nombre: string, contrasena: string, correo: string, edad: any, pregunta: string, respuesta: string) {
+  try {
+    const resultado = await this.database.executeSql(
+      'INSERT INTO usuarios (nombre, contrasena, correo, edad, pregunta_seguridad, respuesta_seguridad) VALUES (?, ?, ?, ?, ?, ?)',
+      [nombre, contrasena, correo, edad, pregunta, respuesta]
+    );
 
-    try {
-      const resultado = await this.database.executeSql(
-        'INSERT INTO usuarios (nombre, contrasena, correo, edad) VALUES (?, ?, ?, ?)',
-        [nombre, contrasena, correo, edad]
-      );
 
-    } catch (error) {
-      throw error;
-    }
+  } catch (error) {
+    throw error;
   }
+}
+
 
   async loginUser(correo: string, password: string) {
     try {
@@ -238,6 +239,44 @@ export class UsuariosService {
       });
     });
   }
+
+  async obtenerIdPorCorreo(correo: string): Promise<number | null> {
+    try {
+    const resultado = await this.database.executeSql('SELECT id FROM usuarios WHERE correo = ?', [correo]);
+
+    if (resultado.rows.length > 0) {
+      return resultado.rows.item(0).id;
+    }
+
+    return null;
+  } catch (error) {
+    console.error('Error al obtener el ID por correo:', error);
+    throw error;
+  }
+}
+
+async cambiarContrasena(id: number, nuevaContrasena: string): Promise<void> {
+  return new Promise<void>(async (resolve, reject) => {
+    this.isready.subscribe(async (ready) => {
+      if (ready) {
+        try {
+          const query = `
+            UPDATE usuarios
+            SET contrasena = ?
+            WHERE id = ?
+          `;
+
+          await this.database.executeSql(query, [nuevaContrasena, id]);
+          resolve();
+        } catch (error) {
+          reject(error);
+        }
+      }
+    });
+  });
+}
+
+
   
   
 }

@@ -65,6 +65,26 @@
           <div *ngIf="!contrasenasCoinciden" class="error-message">Las contraseñas no coinciden.</div>
 
           <ion-item class="ion-margin">
+            <ion-label position="floating">Pregunta de seguridad</ion-label>
+            <ion-select [(ngModel)]="preguntaSeguridad" (input)="validarPreguntaSeguridad()" name="preguntaSeguridad">
+              <ion-select-option *ngFor="let pregunta of preguntasPredeterminadas" [value]="pregunta">{{ pregunta }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <div *ngIf="!preguntaSeguridadValida" class="error-message">Debes seleccionar una pregunta de seguridad.</div>
+          
+          <ion-item class="ion-margin">
+            <ion-label position="floating">Respuesta de seguridad</ion-label>
+            <ion-input
+              placeholder="Ingresa tu respuesta de seguridad"
+              name="respuestaSeguridad"
+              [(ngModel)]="respuestaSeguridad"
+              (input)="validarRespuestaSeguridad()"
+              required
+            ></ion-input>
+          </ion-item>
+          <div *ngIf="!respuestaSeguridadValida" class="error-message">La respuesta de seguridad no puede estar vacía.</div>
+
+          <ion-item class="ion-margin">
             <ion-label position="floating">Fecha de nacimiento</ion-label>
             <ion-datetime
               displayFormat="DD/MM/YYYY"

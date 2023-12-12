@@ -11,6 +11,7 @@ import { ComentariosService } from 'src/app/services/comentarios.service';
 import { Storage } from '@ionic/storage-angular';
 import { LikeService } from 'src/app/services/like.service';
 import { NotificacionesService } from 'src/app/services/notificaciones.service';
+import { GuardadosService } from 'src/app/services/guardados.service';
 
 @Component({
   selector: 'app-imagen-detalle',
@@ -25,10 +26,11 @@ export class ImagenDetallePage implements OnInit {
   isAdmin: any;
   comentarios: any[] = [];
   likes: any;
+  guardados: any;
 
   texto: any;
 
-  constructor(private notificacionService: NotificacionesService, private likeServicio: LikeService,private storage: Storage, private comentariosServicio: ComentariosService, private activatedRoute: ActivatedRoute, private usuariosServicio: UsuariosService, private imagenServicio: ImagenService , private router: Router, private alertController: AlertController) { }
+  constructor(private guardadoServicio: GuardadosService, private notificacionService: NotificacionesService, private likeServicio: LikeService,private storage: Storage, private comentariosServicio: ComentariosService, private activatedRoute: ActivatedRoute, private usuariosServicio: UsuariosService, private imagenServicio: ImagenService , private router: Router, private alertController: AlertController) { }
 
   ngOnInit() {
     this.storage.create();
@@ -38,6 +40,7 @@ export class ImagenDetallePage implements OnInit {
 
       this.cargarComentariosPorImagen(Number(imagenId));
       this.cargarLikesPorImagen(Number(imagenId))
+      this.cargarGuardadosPorImagen(Number(imagenId));
     });
 
     this.usuariosServicio.getCurrentUser().then((currentUser) => {
@@ -128,6 +131,20 @@ export class ImagenDetallePage implements OnInit {
     });
   }
 
+  async cargarLikesPorImagen(imagenId: any) {
+    this.likeServicio.getLikes(imagenId).then((likes) => {
+      this.likes = likes;
+      console.log('Likes:', this.likes);
+    });
+  }
+
+  async cargarGuardadosPorImagen(imagenId: any) {
+    this.guardadoServicio.getGuardados(imagenId).then((guardados) => {
+      this.guardados = guardados;
+      console.log('Guardados:', this.guardados);
+    });
+  }
+
   async agregarComentario() {
     if (!this.texto || this.texto.trim() === '') {
       console.error('El comentario está vacío o solo contiene espacios en blanco');
@@ -146,30 +163,33 @@ export class ImagenDetallePage implements OnInit {
       });
   }
 
-  async agregarLike() {
+  async toggleGuardado() {
+    const hasGuardado= await this.guardadoServicio.hasGuardado(this.idUsuario, this.imagen.id);
+    if (hasGuardado) {
+      await this.removerGuardado();
+    } else {
+      await this.agregarGuardado();
+    }
+    this.cargarGuardadosPorImagen(this.imagen.id);
+  }
+
+    async removerGuardado() {
     try {
-      await this.likeServicio.addLike(this.idUsuario, this.imagen.id);
-      console.log('Like agregado con éxito');
-      this.cargarLikesPorImagen(this.imagen.id);
+      await this.guardadoServicio.removeGuardado(this.idUsuario, this.imagen.id);
+      console.log('Guardado removido con éxito');
+      this.cargarGuardadosPorImagen(this.imagen.id);
     } catch (error) {
-      console.error('Error al agregar el like:', error);
+      console.error('Error al remover el guardado:', error);
     }
   }
 
-  async cargarLikesPorImagen(imagenId: any) {
-    this.likeServicio.getLikes(imagenId).then((likes) => {
-      this.likes = likes;
-      console.log('Likes:', this.likes);
-    });
-  }
-  
-  async removerLike() {
+    async agregarGuardado() {
     try {
-      await this.likeServicio.removeLike(this.idUsuario, this.imagen.id);
-      console.log('Like removido con éxito');
-      this.cargarLikesPorImagen(this.imagen.id);
+      await this.guardadoServicio.addGuardado(this.idUsuario, this.imagen.id);
+      console.log('Guardado agregado con éxito');
+      this.cargarGuardadosPorImagen(this.imagen.id);
     } catch (error) {
-      console.error('Error al remover el like:', error);
+      console.error('Error al agregar el guardado:', error);
     }
   }
 
@@ -190,6 +210,28 @@ export class ImagenDetallePage implements OnInit {
     }
     this.cargarLikesPorImagen(this.imagen.id);
   }
+
+  async removerLike() {
+    try {
+      await this.likeServicio.removeLike(this.idUsuario, this.imagen.id);
+      console.log('Like removido con éxito');
+      this.cargarLikesPorImagen(this.imagen.id);
+    } catch (error) {
+      console.error('Error al remover el like:', error);
+    }
+  }
+
+  async agregarLike() {
+    try {
+      await this.likeServicio.addLike(this.idUsuario, this.imagen.id);
+      console.log('Like agregado con éxito');
+      this.cargarLikesPorImagen(this.imagen.id);
+    } catch (error) {
+      console.error('Error al agregar el like:', error);
+    }
+  }
+
+
 
   async editarComentario(comentario: any) {
     const alert = await this.alertController.create({

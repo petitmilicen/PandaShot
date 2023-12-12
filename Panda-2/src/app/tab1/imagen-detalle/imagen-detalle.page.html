@@ -46,15 +46,11 @@
         </button>
         {{likes}}
         
-        <button mat-icon-button color="black">
+        <button mat-icon-button color="black" (click)="toggleGuardado()">
           <mat-icon>bookmark</mat-icon>
         </button>
-        <button mat-icon-button color="black">
-          <mat-icon>share</mat-icon>
-        </button>
-        <button mat-icon-button color="black">
-          <mat-icon>save_alt</mat-icon>
-        </button>
+        {{guardados}}
+
       </mat-card-actions>
     
       <mat-card-content *ngIf="imagen?.disponible === 0" style="color: red;">

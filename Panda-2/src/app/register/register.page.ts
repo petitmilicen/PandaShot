@@ -15,6 +15,11 @@ export class RegisterPage implements OnInit {
   usuarios: any[] = [];
   fechaNacimientoTexto!: string;
 
+  preguntasPredeterminadas = [
+    '¿Cuál es el nombre de tu primera mascota?',
+    '¿En qué ciudad naciste?'
+  ];
+
   async ngOnInit() {
     this.usuariosServicio.getUsuarios().then((usuarios) => {
       this.usuarios = usuarios;
@@ -23,6 +28,9 @@ export class RegisterPage implements OnInit {
       console.log(this.usuarios);
     });
   }
+
+  preguntaSeguridadValida = true;
+  respuestaSeguridadValida = true;
 
   nombreValido = true;
   correoExiste = true;
@@ -37,6 +45,8 @@ export class RegisterPage implements OnInit {
   contrasena: any = '';
   confirmarContrasena: any = '';
   fechaNacimiento!: any;
+  respuestaSeguridad = '';
+  preguntaSeguridad = this.preguntasPredeterminadas[0];
 
   async registrarUsuario() {
     const nombre = this.nombre;
@@ -89,13 +99,22 @@ export class RegisterPage implements OnInit {
     }
 
     if (isNaN(edad)) {
-      console.log('Edad no válida');
       this.validarFechaNacimiento();
       return;
     }
 
+    if (!this.preguntaSeguridad || this.preguntasPredeterminadas.indexOf(this.preguntaSeguridad) === -1) {
+      this.preguntaSeguridadValida = false;
+      return;
+    }
+  
+    if (!this.respuestaSeguridad || this.respuestaSeguridad.trim().length === 0) {
+      this.respuestaSeguridadValida = false;
+      return;
+    }
+
     try {
-      await this.usuariosServicio.registerUser(nombre, contrasena, correo, edad);
+      await this.usuariosServicio.registerUser(nombre, contrasena, correo, edad, this.preguntaSeguridad, this.respuestaSeguridad);
       console.log('Usuario registrado: ' + nombre, contrasena, correo, edad);
       this.router.navigate(['/login']);
     } catch (error) {
@@ -159,6 +178,15 @@ export class RegisterPage implements OnInit {
       this.contrasenasCoinciden = true;
     }
   }
+
+  validarPreguntaSeguridad() {
+    this.preguntaSeguridadValida = !!this.preguntaSeguridad;
+  }
+  
+  validarRespuestaSeguridad() {
+    this.respuestaSeguridadValida = !!this.respuestaSeguridad && this.respuestaSeguridad.trim().length > 0;
+  }
+  
 
   
 }

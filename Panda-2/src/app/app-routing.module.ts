@@ -57,7 +57,12 @@ const routes: Routes = [
   {
     path: 'administracion',
     loadChildren: () => import('./administracion/administracion.module').then( m => m.AdministracionPageModule)
-  }
+  },
+  {
+    path: 'recuperar-contrasena/:usuarioId',
+    loadChildren: () => import('./recuperar-contrasena/recuperar-contrasena.module').then( m => m.RecuperarContrasenaPageModule)
+  },
+
 
 
 ];

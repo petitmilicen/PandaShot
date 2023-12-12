@@ -15,6 +15,8 @@ export class ImagenService {
       this.crearTablas();  
     });
    }
+
+  cascadeActivar = `PRAGMA foreign_keys = ON`
    
   isready: BehaviorSubject<boolean>= new BehaviorSubject(false);
 
@@ -27,7 +29,7 @@ export class ImagenService {
     disponible BOOLEAN DEFAULT 1,
     usuario_id INTEGER,
     categoria_id INTEGER,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios (id)
+    FOREIGN KEY (usuario_id) REFERENCES usuarios (id),
     FOREIGN KEY (categoria_id) REFERENCES categoria (id)
   )`;
 
@@ -73,7 +75,8 @@ export class ImagenService {
           try {
             const queryJoin = `
               SELECT imagen.*, usuarios.nombre AS nombre_usuario,
-              (SELECT COUNT(*) FROM likes WHERE likes.imagen_id = imagen.id) AS cantidad_likes
+              (SELECT COUNT(*) FROM likes WHERE likes.imagen_id = imagen.id) AS cantidad_likes,
+              (SELECT COUNT(*) FROM guardados WHERE guardados.imagen_id = imagen.id) AS cantidad_guardados
               FROM imagen
               INNER JOIN usuarios ON imagen.usuario_id = usuarios.id
               WHERE imagen.disponible = 1
@@ -125,16 +128,20 @@ export class ImagenService {
   }
   
 
-  async deleteImagen(id: number) {
-    return this.database
-      .executeSql(`DELETE FROM imagen WHERE id = ${id}`, [])
-      .then(() => {
-        return "category deleted";
-      })
-      .catch((e) => {
-        return "Error al borrar imagen " + JSON.stringify(e);  
-      });
+  async deleteImagen(id: number): Promise<string> {
+    try {
+  
+      const result = await this.database.executeSql('DELETE FROM imagen WHERE id = ?;', [id]);
+  
+      console.log('Resultado del borrado:', result);
+      return "Imagen eliminada";
+    } catch (error) {
+      console.error('Error al borrar imagen:', error);
+      return "Error al borrar imagen";
+    }
   }
+  
+
 
   async editImagen(titulo: string, imagen: string, descripcion: string, id: number) {
     try {
@@ -296,6 +303,5 @@ export class ImagenService {
       }
     });
   }
-  
   
 }

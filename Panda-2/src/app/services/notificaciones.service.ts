@@ -27,13 +27,13 @@ export class NotificacionesService {
     imagen_id INTEGER,
     usuario_id INTEGER,
     usuario_interactuante_id INTEGER,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios (id),
-    FOREIGN KEY (imagen_id) REFERENCES imagen (id),
-    FOREIGN KEY (usuario_interactuante_id) REFERENCES usuarios(id)
+    FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE,
+    FOREIGN KEY (imagen_id) REFERENCES imagen (id) ON DELETE CASCADE,
+    FOREIGN KEY (usuario_interactuante_id) REFERENCES usuarios(id) ON DELETE CASCADE
   )`;
 
   drop = `drop table notificaciones`
-  alter = `delete from notificaciones`
+
 
   async crearTablas() {
     try {
@@ -159,7 +159,6 @@ async getNotificacionesPorId(usuarioId: number): Promise<any[]> {
       });
     });
   }
-  
 
   async enviarNotificacionDeComentario(imagenId: number, usuarioInteractuanteId: number, idUsuario: number): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {

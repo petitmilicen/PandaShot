@@ -1,0 +1,44 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Imágenes Guardadas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Imágenes Guardadas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list *ngIf="guardados && guardados.length > 0; else noGuardados">
+    <ion-item *ngFor="let guardado of guardados">
+      <ion-thumbnail slot="start">
+        <a [routerLink]="['/tabs/imagenes', guardado.imagen_id]">
+          <ion-img [src]="guardado.imagen"></ion-img>
+        </a>
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ guardado.titulo }}</h2>
+        <p>Por: {{ guardado.nombre_usuario_imagen }}</p>
+      </ion-label>
+  
+      <ion-button (click)="eliminarGuardado(guardado.usuario_id, guardado.imagen_id)" color="danger">
+        <mat-icon>remove_circle</mat-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+  
+  <ng-template #noGuardados>
+    <ion-item>
+      <ion-label>
+        <p>No hay imágenes guardadas aún.</p>
+      </ion-label>
+    </ion-item>
+  </ng-template>
+
+  
+  
+  
+
+</ion-content>

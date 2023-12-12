@@ -6,9 +6,9 @@ import { UsuariosService } from '../services/usuarios.service';
 import { Storage } from '@ionic/storage-angular';
 import { LikeService } from '../services/like.service';
 import { NotificacionesService } from '../services/notificaciones.service';
-import { Subscription } from 'rxjs';
 import { AlertController } from '@ionic/angular';
 import { CategoriaService } from '../services/categoria.service';
+import { GuardadosService } from '../services/guardados.service';
 
 @Component({
   selector: 'app-tab1',
@@ -17,6 +17,8 @@ import { CategoriaService } from '../services/categoria.service';
 })
 
 export class Tab1Page {
+
+  allLikes: any;
   
   imagenesBaneadas: any;
 
@@ -32,7 +34,7 @@ export class Tab1Page {
   categorias: any[] = []
 
   cantidadNotificacionesNoVistas: any;
-  constructor(private categoriaServicio: CategoriaService, private alertController: AlertController, private likeServicio: LikeService, private router: Router, private imagenServicio: ImagenService, private usuarioService: UsuariosService, private storage: Storage, private notificacionService: NotificacionesService) {
+  constructor(private guardadoServicio: GuardadosService, private categoriaServicio: CategoriaService, private alertController: AlertController, private likeServicio: LikeService, private router: Router, private imagenServicio: ImagenService, private usuarioService: UsuariosService, private storage: Storage, private notificacionService: NotificacionesService) {
     this.storage.create();
 
     this.router.events.subscribe((event) => {
@@ -53,6 +55,7 @@ export class Tab1Page {
       this.obtenerCantidadNotificacionesNoVistas();
       this.cargarCategorias();
       this.actualizarSeleccionCategoria();
+      this.loadLikes();
     }
 
     ionViewWillEnter(){
@@ -62,6 +65,7 @@ export class Tab1Page {
       this.obtenerCantidadNotificacionesNoVistas();
       this.cargarCategorias();
       this.actualizarSeleccionCategoria();
+      this.loadLikes();
     }
 
   async cargarUsuarioData() {
@@ -138,6 +142,37 @@ export class Tab1Page {
         console.log('No se ha agregado la notificación porque ya existe');
       }
     }
+    this.loadImages();
+  }
+
+  async agregarGuardado(idUsuario:any, imagenId: any) {
+    try {
+      await this.guardadoServicio.addGuardado(idUsuario, imagenId);
+      console.log('Guardado agregado con éxito');
+      this.loadImages();
+    } catch (error) {
+      console.error('Error al agregar el like:', error);
+    }
+  }
+  
+  async removerGuardado(idUsuario: any, imagenId: any) {
+    try {
+      await this.guardadoServicio.removeGuardado(idUsuario, imagenId);
+      console.log('Guardado removido con éxito');
+      this.loadImages();
+    } catch (error) {
+      console.error('Error al remover el like:', error);
+    }
+  }
+
+  async toggleGuardado(idUsuario: any, imagenId: any) {
+    const hasGuardado = await this.guardadoServicio.hasGuardado(idUsuario, imagenId);
+    if (hasGuardado) {
+      await this.removerGuardado(idUsuario, imagenId);
+    } else {
+      await this.agregarGuardado(idUsuario, imagenId);
+    }
+  
     this.loadImages();
   }
 
@@ -219,7 +254,16 @@ export class Tab1Page {
   async getCategoriaId() {
     return await this.storage.get('selectedCategoriaId');
   }
+
+  
+  async loadLikes() {
+    try {
+      this.allLikes = await this.likeServicio.getAllLikes();
+      console.log('TODOS LOS LIKES: ',this.allLikes);
+      
+    } catch (error) {
+      console.error('Error al cargar los likes:', error);
+    }
+
+  }
 }
-
-
-

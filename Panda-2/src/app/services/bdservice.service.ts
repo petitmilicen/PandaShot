@@ -9,6 +9,7 @@ export class BdserviceService {
 
   constructor(private sqlite: SQLite) {
     this.initializeDatabase();
+    
   }
 
   async initializeDatabase(): Promise<void> {
@@ -21,5 +22,7 @@ export class BdserviceService {
       alert("Error al crear base de datos: " + JSON.stringify(error));
     }
   }
+
+
   
 }

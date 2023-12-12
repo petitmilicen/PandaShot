@@ -25,9 +25,11 @@ export class ComentariosService {
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     usuario_id INTEGER,
     imagen_id INTEGER,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
-    FOREIGN KEY (imagen_id) REFERENCES imagen(id)
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (imagen_id) REFERENCES imagen(id) ON DELETE CASCADE
   );`;
+
+  delete = `drop table comentario`
 
   insert = `INSERT INTO comentario (texto, usuario_id, imagen_id)
   VALUES ('Hola mundo xd', 1, 1);

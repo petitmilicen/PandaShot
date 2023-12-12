@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class LikeService {
   database!: SQLiteObject;
+  
 
   constructor(private databaseService: BdserviceService) {
     this.databaseService.initializeDatabase().then(() => {
@@ -23,9 +24,12 @@ export class LikeService {
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     usuario_id INTEGER,
     imagen_id INTEGER,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios (id),
-    FOREIGN KEY (imagen_id) REFERENCES imagen (id)
+    FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE,
+    FOREIGN KEY (imagen_id) REFERENCES imagen (id) ON DELETE CASCADE
   )`;
+
+  delete = `DROP TABLE IF EXISTS likes;
+  `
 
   async crearTablas() {
     try {
@@ -128,6 +132,35 @@ export class LikeService {
             resolve(resultado.rows.length > 0);
           } catch (error) {
             console.error('Error al verificar si el usuario ha dado like:', error);
+            reject(error);
+          }
+        }
+      });
+    });
+  }
+
+  async getAllLikes(): Promise<any[]> {
+    return new Promise<any[]>(async (resolve, reject) => {
+      this.isready.subscribe(async (ready) => {
+        if (ready) {
+          try {
+            const query = `
+              SELECT * FROM likes
+            `;
+
+            const resultado = await this.database.executeSql(query, []);
+
+            if (resultado.rows.length > 0) {
+              const likes = [];
+              for (let i = 0; i < resultado.rows.length; i++) {
+                likes.push(resultado.rows.item(i));
+              }
+              resolve(likes);
+            } else {
+              resolve([]);
+            }
+          } catch (error) {
+            console.error('Error al obtener todos los "likes":', error);
             reject(error);
           }
         }

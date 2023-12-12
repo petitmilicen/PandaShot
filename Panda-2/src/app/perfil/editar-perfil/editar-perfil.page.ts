@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { UsuariosService } from 'src/app/services/usuarios.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-editar-perfil',
@@ -10,7 +11,7 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 })
 export class EditarPerfilPage implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute,private storage: Storage, private usuarioService: UsuariosService, private router: Router) {
+  constructor(private activatedRoute: ActivatedRoute,private storage: Storage, private usuarioService: UsuariosService, private router: Router, private toastController: ToastController) {
     this.storage.create();
   }
 
@@ -31,15 +32,36 @@ export class EditarPerfilPage implements OnInit {
   }
 
 
-  async editarUsuario(){
+  async editarUsuario() {
     try {
-      
       await this.usuarioService.editUsuario(this.usuario.id, this.usuario.nombre, this.usuario.biografia);
-   
+      this.mostrarToastExito('Perfil actualizado con éxito');
       this.router.navigate([`/perfil/${this.usuario.id}`]);
     } catch (error) {
-      console.error('Error al subir la imagen:', error);
+      console.error('Error al editar el usuario:', error);
+      this.mostrarToastError('Hubo un error al editar el perfil. Por favor, inténtalo de nuevo.');
     }
+  }
+  
+  async mostrarToastExito(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      position: 'bottom',
+    });
+  
+    await toast.present();
+  }
+  
+  async mostrarToastError(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      position: 'bottom',
+      color: 'danger', 
+    });
+  
+    await toast.present();
   }
 
 }

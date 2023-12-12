@@ -7,6 +7,10 @@
         <mat-icon>category</mat-icon>
       </ion-button>
 
+      <ion-button [routerLink]="['/tabs/imagenes/imagenes-guardadas']">
+        <mat-icon>bookmark</mat-icon>
+      </ion-button>
+
       <ion-button [routerLink]="['/tabs/notificaciones']">
         <mat-icon>notifications</mat-icon>
         <ion-badge class="custom-badge" color="danger" *ngIf="cantidadNotificacionesNoVistas > 0">{{ cantidadNotificacionesNoVistas }}</ion-badge>         
@@ -38,9 +42,14 @@
       <ion-fab-button >
         <mat-icon [routerLink]="['/tabs/imagenes/agregar-imagen']">add_circle</mat-icon>
       </ion-fab-button>
+
+
+
       <ion-fab-button [routerLink]="['/perfil', idUsuario]">
         <mat-icon>person</mat-icon>
       </ion-fab-button>
+
+
 
       <ion-fab-button *ngIf="isAdmin === 1" [routerLink]="['/tabs/imagenes/imagenes-baneadas']">
         <mat-icon>apps</mat-icon>
@@ -68,9 +77,10 @@
               <mat-icon>favorite</mat-icon>
             </button>
             {{imagen.cantidad_likes}}
-            <button mat-icon-button color="black" aria-label="Example icon button with a bookmark icon">
+            <button mat-icon-button color="black" aria-label="Example icon button with a bookmark icon" (click)="toggleGuardado(idUsuario,imagen.id)">
               <mat-icon>bookmark</mat-icon>
             </button>
+            {{imagen.cantidad_guardados}}
           </mat-card-actions>
         </mat-card>
       </ion-col>
