@@ -1,6 +1,6 @@
 <div align="center">
   
-<img src="https://i.imgur.com/2wAjlkO.png" alt="logo" title="logo" width="80"/>
+<img src="https://i.imgur.com/2wAjlkO.png" alt="logo" title="logo" width="140"/>
 
 # Pandashot App
 
