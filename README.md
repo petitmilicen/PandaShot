@@ -2,7 +2,7 @@
   
 <img src="https://i.imgur.com/2wAjlkO.png" alt="logo" title="logo" width="140"/>
 
-# Pandashot App
+# PandaShot App
 
 ### Red social de imágenes.
 PandaShot es una aplicación desarrollada con Ionic, Angular y SQL, diseñada para la carga y compartición de imágenes.
@@ -24,7 +24,7 @@ PandaShot es una aplicación desarrollada con Ionic, Angular y SQL, diseñada pa
 ## Aclaración de uso
 
 <div align="left">
-Pandashot es una aplicación desarrollada únicamente con propósitos académicos y de demostración de habilidades técnicas. No está destinada para su uso en un entorno de producción ni tiene la intención de ofrecer un servicio real.
+PandaShot es una aplicación desarrollada únicamente con propósitos académicos y de demostración de habilidades técnicas. No está destinada para su uso en un entorno de producción ni tiene la intención de ofrecer un servicio real.
 </div>
 
 </div>
