@@ -2,7 +2,7 @@
   
 <img src="https://i.imgur.com/2wAjlkO.png" alt="logo" title="logo" width="80"/>
 
-# $${\color{black}Pandashot}$$	 $${\color{orange}App}$$	
+# Pandashot App
 
 ### Red social de imágenes.
 PandaShot es una aplicación desarrollada con TypeScript, Angular y Ionic, diseñada para la carga y compartición de imágenes.
