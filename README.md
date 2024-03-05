@@ -4,7 +4,7 @@
 
 # PandaShot App
 
-### Photo sharing social networking service
+### Photo-sharing social network
 PandaShot is an app developed with Ionic, Angular, and SQL, designed for uploading and sharing images.
 
 <img src="https://cayssa.s-ul.eu/c5uZaF3R" alt="img demo" title="img demo"/>
